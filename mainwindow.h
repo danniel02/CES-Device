@@ -5,6 +5,8 @@
 #include <string>
 #include<QDebug>
 
+#include "session.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -28,7 +30,16 @@ private:
     int Intensity2;
     bool Med_Battery;
     bool Low_Battery;
+    
+    Session* currentSession;
+    bool isConnected;
+    int currentTimerCount;
+
+    void initializeTimer(QTimer*);
+    void startSession(Session*);
+
 private slots:
+    void updateTimer()
     void Traverse();
     void Select();
     void Contact();
