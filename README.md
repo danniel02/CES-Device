@@ -12,7 +12,9 @@ Settings -> Dev Settings -> Personal Access Token -> Token (classisc) -> Generat
 
 Then, in VM's terminal, do:
 git clone https://github.com/danniel02/CES-Device.git 
+
 Then, enter github name
+
 Then, enter token as password
 
 
