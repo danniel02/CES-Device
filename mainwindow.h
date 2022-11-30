@@ -5,6 +5,9 @@
 #include <string>
 #include<QDebug>
 
+#include <QtConcurrent>
+#include <QThreadPool>
+#include <QRandomGenerator>
 #include "session.h"
 
 QT_BEGIN_NAMESPACE
@@ -38,6 +41,10 @@ private:
 
     void initializeTimer(QTimer*);
     void startSession(Session*);
+
+    void initMenu();
+
+    void connectionTest();
 
 private slots:
     void updateTimer();

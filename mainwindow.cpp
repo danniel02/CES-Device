@@ -30,6 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     Update();
 
+
+
+
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -224,6 +230,14 @@ void MainWindow::ModeSwap(){
     }
     Update();
 
+    if (Mode_Int==0){
+        QtConcurrent::run([this]{
+            connectionTest();
+            return;
+        });
+
+    }
+
 }
 void MainWindow::UseAdmin(){
 
@@ -280,12 +294,73 @@ void MainWindow::initMenu(){
     //start up we need 5 menus, Start(Start Session, Review Sessions, Login/out), Session Creation(Initial Power Level, Session duration:)..the other 2 are not needed,Session List(all recorded sessions),login/out()
     //maybe make some lists and beased on what is clicked it either transfers to another list or modifies the current one
     //QTreeView ?
+    ;
 
 
 
     }
 
+void MainWindow::connectionTest(){
 
+    qInfo()<<"Entering Connection Test Mode";
+
+    for (int i=0; i<5; i++){
+
+        ui->M1->setStyleSheet("background-color: green");
+        QThread::msleep(500);
+        ui->M1->setStyleSheet("background-color: white");
+        QThread::msleep(500);
+    }
+
+    while (1){
+
+        int connection = QRandomGenerator::global()->bounded(3);
+
+        if (connection == 0){
+            ui->M1->setStyleSheet("background-color: green");
+            ui->M1_status->setStyleSheet("background-color: green");
+            ui->M1_status->setText("  Excellent");
+
+            QThread::sleep(5);
+//            Mode_Int = -1;
+            ui->M1->setStyleSheet("background-color: rgba(0,0,0,0%)");
+            ui->M1_status->setStyleSheet("background-color: rgba(0,0,0,0%)");
+            ui->M1->setText(" ");
+            ui->M1_status->setText(" ");
+            return;
+
+        } else if (connection == 1){
+            ui->M1->setStyleSheet("background-color: yellow");
+            ui->M1_status->setStyleSheet("background-color: yellow");
+            ui->M1_status->setText("  Okay");
+
+            QThread::sleep(5);
+//            Mode_Int = -1;
+            ui->M1->setStyleSheet("background-color: rgba(0,0,0,0%)");
+            ui->M1_status->setStyleSheet("background-color: rgba(0,0,0,0%)");
+            ui->M1->setText(" ");
+            ui->M1_status->setText(" ");
+            return;
+
+        } else {
+            ui->M1->setStyleSheet("background-color: red");
+            ui->M1_status->setStyleSheet("background-color: red");
+            ui->M1_status->setText("  No Connection");
+            QThread::sleep(5);
+
+            ui->M1_status->setText("  Fix connection");
+
+            for (int i=0; i<10; i++){
+                ui->M1->setStyleSheet("background-color: red");
+                QThread::msleep(200);
+                ui->M1->setStyleSheet("background-color: black");
+                QThread::msleep(200);
+            }
+        }
+    }
+
+
+}
 
 
 
