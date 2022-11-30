@@ -8,7 +8,7 @@ Session::Session(QString n, QString f, int d){
     timer = new QTimer(this);
 }
 
-Session::~Session{
+Session::~Session(){
     delete timer;
 }
 

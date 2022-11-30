@@ -7,7 +7,7 @@
 
 class Session : public QObject{
 
-    Q_Object
+    Q_OBJECT
 
     public:
         Session(const QString name, const QString freq, int dur);
