@@ -26,6 +26,7 @@ private:
     int Mode_Int;
     bool Power_On;
     double Battery;
+    double Draw;
     int Intensity;
     int Intensity2;
     bool Med_Battery;
@@ -39,7 +40,7 @@ private:
     void startSession(Session*);
 
 private slots:
-    void updateTimer()
+    void updateTimer();
     void Traverse();
     void Select();
     void Contact();
@@ -53,5 +54,6 @@ private slots:
     void SetIntensity2(int);
     void ModeSwap();
     void UseAdmin();
+    void SetDraw(double);
 };
 #endif // MAINWINDOW_H

@@ -64,6 +64,7 @@ void MainWindow::Contact(){
 
 void MainWindow::Update(){
     qInfo()<<"updating";
+
     //updates menu and all lights;
     //L/R contact, Mode, Power, power warning, menu, intensity
     if (Left_Contact){
@@ -236,6 +237,15 @@ void MainWindow::UseAdmin(){
     Update();
 
 }
+void MainWindow::SetDraw(double i){
+    qInfo()<<"Use:"<<i;
+    Draw=i;
+    if (Battery-Draw>0){
+        SetPower(Battery-Draw);
+    }else{
+        Battery = 0;
+    }
+}
 
 void MainWindow::initializeTimer(QTimer* t){
     connect(t, &QTimer::timeout, this, &MainWindow::updateTimer);
@@ -248,7 +258,7 @@ void MainWindow::initializeTimer(QTimer* t){
 void MainWindow::updateTimer(){
     currentTimerCount -= 1;
     if (currentTimerCount == 0){
-        currentTimerCount = -1
+        currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
@@ -258,10 +268,39 @@ void MainWindow::updateTimer(){
 void MainWindow::startSession(Session *s){
     currentSession = s;
 
-    currentTimerCount = s->getTime();
-    initializeTimer(s->getDuration);
+//original code currentTimerCount = s->getTime();
+    QTimer* currentTimerCount = s->getTimer();
+    initializeTimer(s->getDuration());
 
 }
+
+//MENU NAV
+
+void MainWindow::initMenu(){
+    //start up we need 5 menus, Start(Start Session, Review Sessions, Login/out), Session Creation(Initial Power Level, Session duration:)..the other 2 are not needed,Session List(all recorded sessions),login/out()
+    //maybe make some lists and beased on what is clicked it either transfers to another list or modifies the current one
+    //QTreeView ?
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
