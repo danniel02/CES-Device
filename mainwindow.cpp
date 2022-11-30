@@ -270,7 +270,7 @@ void MainWindow::startSession(Session *s){
 
 //original code currentTimerCount = s->getTime();
     QTimer* currentTimerCount = s->getTimer();
-    initializeTimer(s->getDuration());
+    initializeTimer(s->getTimer());
 
 }
 
