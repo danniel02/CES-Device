@@ -10,13 +10,15 @@ class Session : public QObject{
     Q_OBJECT
 
     public:
-        Session(const QString name, const QString freq, int dur);
+        Session(const QString name, const QString freq, int dur, int i);
         ~Session();
 
         QString getName();
         QString getFreq();
         QTimer* getTimer();
         int getDuration();
+        int getIntensity();
+        void setIntensity(int i);
 
 
     private:
@@ -24,6 +26,7 @@ class Session : public QObject{
         QTimer *timer;
         QString name;
         QString freq;
+        int intensity; //1-8, 0 means off or no power or no connection
 
 
 };

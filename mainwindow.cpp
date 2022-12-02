@@ -51,6 +51,9 @@ void MainWindow::Traverse(){
 
 void MainWindow::Select(){
     //do with this what you will
+
+    //if selection is session call creation of session
+    //else traverse multi dimension array
 }
 
 void MainWindow::Contact(){
@@ -271,6 +274,10 @@ void MainWindow::initializeTimer(QTimer* t){
 
 void MainWindow::updateTimer(){
     currentTimerCount -= 1;
+
+    //do i set this to Intensity or Intensity2?
+    currentSession->setIntensity(Intensity);
+
     if (currentTimerCount == 0){
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
@@ -282,8 +289,7 @@ void MainWindow::updateTimer(){
 void MainWindow::startSession(Session *s){
     currentSession = s;
 
-//original code currentTimerCount = s->getTime();
-    QTimer* currentTimerCount = s->getTimer();
+    currentTimerCount = s->getDuration();
     initializeTimer(s->getTimer());
 
 }
