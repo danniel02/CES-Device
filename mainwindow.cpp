@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     Low_Battery=false;
     Med_Battery=false;
 
+    currentUser = new User("Default"); // set the current user as a default
+    currentSession = nullptr;
 
     Update();
 
@@ -265,8 +267,8 @@ void MainWindow::SetDraw(double i){
 }
 
 void MainWindow::initializeTimer(QTimer* t){
+    //calls update timer ever 1 second until explicit call is made to stop or disconnect the timer
     connect(t, &QTimer::timeout, this, &MainWindow::updateTimer);
-
     if (isConnected) {
         t->start(1000);
     }
@@ -278,6 +280,7 @@ void MainWindow::updateTimer(){
     //do i set this to Intensity or Intensity2?
     currentSession->setIntensity(Intensity);
 
+
     if (currentTimerCount == 0){
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
@@ -286,12 +289,29 @@ void MainWindow::updateTimer(){
     }
 }
 
+// call to start a session
 void MainWindow::startSession(Session *s){
+    if(currentSession != nullptr) { return; }
     currentSession = s;
 
     currentTimerCount = s->getDuration();
     initializeTimer(s->getTimer());
 
+}
+
+void MainWindow::stopSession(){
+    if(currentTimerCount > 0){
+        currentTimerCount = -1;
+        currentSession->getTimer()->stop();
+        currentSession->getTimer()->disconnect();
+        currentSession = nullptr;
+    }
+
+}
+
+void MainWindow::recordSession(){    //uses currentUser variable to record a currently undergoing session to the current user vector
+    if(currentTimerCount < 1){ return; } // if session is not currently undergoing, cannot record. Needs clarification on when you're able to record
+    currentUser->addSession(currentSession);
 }
 
 //MENU NAV
