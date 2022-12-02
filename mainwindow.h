@@ -20,6 +20,7 @@ User* currentUser - The currently selected user, is "default" by default
 Session* currentSession - the current selected session that is undergoing
 bool isConnected - a boolean variable that is true if the system is currently connected to the user, and false if not
 int currentTimerCount - an int that measures the remaining time of a session in seconds
+bool recording - a boolean variable, true if the current session is begin recorded, false if the current session is not
 
 Class Functions:
 
@@ -62,6 +63,7 @@ private:
     Session* currentSession; //the current undergoing session
     bool isConnected;   
     int currentTimerCount; // int that represents time in seconds
+    bool recording;
 
     void initializeTimer(QTimer*);
     void startSession(Session*);

@@ -282,10 +282,13 @@ void MainWindow::updateTimer(){
 
 
     if (currentTimerCount == 0){
+        if(recording){ currentUser->addSession(currentSession); }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
+        recording = false;
+
     }
 }
 
@@ -305,13 +308,14 @@ void MainWindow::stopSession(){
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
+        recording = false;
     }
 
 }
 
 void MainWindow::recordSession(){    //uses currentUser variable to record a currently undergoing session to the current user vector
     if(currentTimerCount < 1){ return; } // if session is not currently undergoing, cannot record. Needs clarification on when you're able to record
-    currentUser->addSession(currentSession);
+    recording = true;
 }
 
 //MENU NAV
