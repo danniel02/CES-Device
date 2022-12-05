@@ -6,6 +6,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //Yacin start
+    //Creating and initializing the main menu
+    currentMenu = new Menu("START",{"Start Session", "Review Session", "Login/out"},nullptr);
+    forDestructorMenu = currentMenu;
+
+    //Creates, initializes and displays sub menus
+    initMenu(currentMenu);
+    //Yacin end
+
     connect(ui->UP, SIGNAL(pressed()),this,SLOT(Traverse()));
     connect(ui->DOWN, SIGNAL(pressed()),this,SLOT(Traverse()));
     connect(ui->L_CON_B, SIGNAL(pressed()),this,SLOT(Contact()));
@@ -17,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->MODE, SIGNAL(pressed()),this,SLOT(ModeSwap()));
     connect(ui->USE_ADMIN, SIGNAL(pressed()),this,SLOT(UseAdmin()));
     //Yacin start
+    connect(ui->ENTER, SIGNAL(pressed()),this,SLOT(Select()));
+    connect(ui->RETURN, SIGNAL(pressed()),this,SLOT(goBack()));
     ui->CT_LIST->addItems({"No Connection", "Okay Connection", "Excellent Connection"}); // Connection test QComboBox initialization & connections
     connect(ui->CT_LIST, QOverload<int>::of(&QComboBox::activated), this, QOverload<int>::of(&MainWindow::connectionTest));
     //Yacin end
@@ -46,20 +58,69 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete forDestructorMenu;
 }
 
 void MainWindow::Traverse(){
     QPushButton* up_down = qobject_cast<QPushButton*>(sender());
     qInfo()<<"selected: "<<up_down->text();
     //do with this what you will
+    //Yacin start
+
+    //traverse up the menu's options
+    if(up_down->text()=="UP"){
+        //loops down to bottom if at upper limit
+        if( (ui->menuViewer->currentRow()-1) < 0 ){
+            ui->menuViewer->setCurrentRow(ui->menuViewer->count()-1);
+        }
+        else{
+            ui->menuViewer->setCurrentRow(ui->menuViewer->currentRow()-1);
+        }
+    }
+
+    //traverse down the menu's options
+    else if(up_down->text()=="DOWN"){
+        //loops up to top if at lower limit
+        if( (ui->menuViewer->count()-1) < (ui->menuViewer->currentRow()+1) ){
+            ui->menuViewer->setCurrentRow(0);
+
+        }
+        else{
+            ui->menuViewer->setCurrentRow(ui->menuViewer->currentRow()+1);
+        }
+    }
+
+    //Yacin end
 }
 
 void MainWindow::Select(){
     //do with this what you will
+    //Yacin start
+    QPushButton* selected = qobject_cast<QPushButton*>(sender());
+     qInfo()<<"selected: "<<selected->text();
 
     //if selection is session call creation of session
     //else traverse multi dimension array
+    int indexMenu = ui->menuViewer->currentRow();
+    if(currentMenu->get(indexMenu)->hasChildMenu()){
+        currentMenu = currentMenu->get(indexMenu);
+        menuUpdate(currentMenu);
+    }
+    //ADD LOGIC HERE
+    //Yacin end
 }
+
+//Yacin start
+void MainWindow::goBack(){
+    QPushButton* back = qobject_cast<QPushButton*>(sender());
+    qInfo()<<"selected: "<<back->text();
+    if(currentMenu->getParent()!=nullptr){
+        currentMenu = currentMenu->getParent();
+    }
+    else{return;}
+    menuUpdate(currentMenu);
+}
+//Yacin end
 
 void MainWindow::Contact(){
     QPushButton* L_R = qobject_cast<QPushButton*>(sender());
@@ -120,10 +181,20 @@ void MainWindow::Update(){
     if (Power_On){
         //everything is allowed to be on
         ui->POWER_B->setStyleSheet("background-color: green");
+        ui->OFF_SCREEN->setVisible(false);
+        ui->UP->blockSignals(false);
+        ui->DOWN->blockSignals(false);
+        ui->ENTER->blockSignals(false);
+        ui->RETURN->blockSignals(false);
 
     }else{
         //turn all lights to white, reset
         ui->POWER_B->setStyleSheet("background-color: white");
+        ui->OFF_SCREEN->setVisible(true);
+        ui->UP->blockSignals(true);
+        ui->DOWN->blockSignals(true);
+        ui->ENTER->blockSignals(true);
+        ui->RETURN->blockSignals(true);
     }
 
     //battery and warnning
@@ -167,7 +238,6 @@ void MainWindow::Update(){
         ui->M3->setStyleSheet("background-color: green");
         break;
     }
-
 
 
 }
@@ -335,14 +405,32 @@ void MainWindow::recordSession(){    //uses currentUser variable to record a cur
 
 //MENU NAV
 
-void MainWindow::initMenu(){
+void MainWindow::initMenu(Menu* currentM){
     //start up we need 5 menus, Start(Start Session, Review Sessions, Login/out), Session Creation(Initial Power Level, Session duration:)..the other 2 are not needed,Session List(all recorded sessions),login/out()
     //maybe make some lists and beased on what is clicked it either transfers to another list or modifies the current one
     //QTreeView ?
-    ;
+
+    //Yacin start
+    //creation of sub menus
+    Menu* sessionCreation= new Menu("Session Creation",{"?","??","etc.."},currentM);
+    Menu* sessionList= new Menu("Session List",{"1. Session:#?","etc.."},currentM);
+    Menu* userSelect= new Menu("UserSelect",{"User ?","User ??","etc.."},currentM);
+
+    //add sub menus to main menu
+    currentM->addChildMenu(sessionCreation);
+    currentM->addChildMenu(sessionList);
+    currentM->addChildMenu(userSelect);
+
+    //add sub menus to the sub menus below
+    //do with this what you will
 
 
+    //display start menu to the ui
+    ui->menuViewer->addItems(currentM->getMenuItems());
+    ui->menuViewer->setCurrentRow(0);
+    ui->MENU_LABEL->setText(currentM->getName());
 
+    //Yacin end
     }
 
 //Yacin start
@@ -369,6 +457,13 @@ void MainWindow::connectionTest(int indexVal) {
         ui->CON_T->setStyleSheet("background-color: green");
     }
     connectionTest((indexVal == 1) || (indexVal == 2)) ;
+}
+
+void MainWindow::menuUpdate(Menu* currentM){
+    ui->menuViewer->clear();
+    ui->menuViewer->addItems(currentM->getMenuItems());
+    ui->menuViewer->setCurrentRow(0);
+    ui->MENU_LABEL->setText(currentM->getName());
 }
 
 //Yacin end
