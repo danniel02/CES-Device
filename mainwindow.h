@@ -70,6 +70,8 @@ private:
     int currentTimerCount; // int that represents time in seconds
     Menu* currentMenu;
     Menu* forDestructorMenu;
+    QVector<Session*> sessionList;
+    QVector<User*> UserList;
 
     void initializeTimer(QTimer*);
     void startSession(Session*);

@@ -35,5 +35,7 @@ QString Menu::getName() { return name; }
 QStringList Menu::getMenuItems() { return menuItems; }
 Menu* Menu::getParent() { return parent; }
 //int Menu::getPos() { return position; }
-Menu* Menu::get(int i) { return subMenus[i]; }
-bool Menu::hasChildMenu(){return menuItems.length()>0;}
+Menu* Menu::get(int i) { return subMenus[i]; }//this errors out as its out of index
+QString* Menu::getName(int i) { return &menuItems[i]; }//this errors out as its out of index
+//bool Menu::hasChildMenu(){return menuItems.length()>0;}
+bool Menu::hasChildMenu(){return subMenus.length()>0;}

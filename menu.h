@@ -37,14 +37,17 @@ public:
     Menu* getParent();
     //int getPos();
     Menu* get(int);
+    QString* getName(int);
     void addChildMenu(Menu*); //function to add a menu
     bool hasChildMenu();
+    //added
 
 private:
     QString name;
     QStringList menuItems;
     //int position;
     QVector<Menu*> subMenus;
+
     Menu* parent;
 
 };

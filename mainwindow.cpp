@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "string.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -101,12 +101,35 @@ void MainWindow::Select(){
 
     //if selection is session call creation of session
     //else traverse multi dimension array
+
     int indexMenu = ui->menuViewer->currentRow();
-    if(currentMenu->get(indexMenu)->hasChildMenu()){
+    //if(currentMenu->get(indexMenu)->hasChildMenu()){
+
+    if(currentMenu->hasChildMenu()){
+        qInfo()<<"test2";
         currentMenu = currentMenu->get(indexMenu);
         menuUpdate(currentMenu);
+    }else{
+        qInfo()<<"test";
+
+        QString name=ui->MENU_LABEL->text();
+
+        QString* n = currentMenu->getName(indexMenu);
+        //qInfo()<<*n;
+        if (name == "UserSelect"){
+            qInfo()<<name;
+            qInfo()<<*n;
+        }else if(name == "Session Creation"){
+            qInfo()<<name;
+            qInfo()<<*n;
+        }else if(name == "Session List"){
+            qInfo()<<name;
+            qInfo()<<*n;
+        }
     }
     //ADD LOGIC HERE
+    //options, start/create session, select user, view session
+
     //Yacin end
 }
 
