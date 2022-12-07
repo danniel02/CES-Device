@@ -104,13 +104,13 @@
      <string>R-Connection</string>
     </property>
    </widget>
-   <widget class="QLabel" name="M1">
+   <widget class="QLabel" name="CON_T">
     <property name="geometry">
      <rect>
-      <x>100</x>
-      <y>510</y>
-      <width>131</width>
-      <height>41</height>
+      <x>240</x>
+      <y>530</y>
+      <width>121</width>
+      <height>17</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -508,7 +508,7 @@
      <string>UseAdmin</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="menuViewer">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -521,11 +521,81 @@
    <widget class="QLabel" name="M1_status">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>510</y>
-      <width>241</width>
-      <height>41</height>
+      <x>360</x>
+      <y>530</y>
+      <width>58</width>
+      <height>18</height>
      </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="M1">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>10</y>
+      <width>31</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(239, 41, 41);</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string>M1</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>180</y>
+      <width>241</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="LABEL_ConectionTest">
+       <property name="text">
+        <string>Connection Test</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="CT_LIST"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="RETURN">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>480</y>
+      <width>61</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RETURN</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="OFF_SCREEN">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>120</y>
+      <width>251</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
      <string/>
@@ -538,7 +608,7 @@
      <x>0</x>
      <y>0</y>
      <width>922</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
