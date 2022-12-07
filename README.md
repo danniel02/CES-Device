@@ -37,3 +37,7 @@ First, ensure you are at the branch that you want
 git add .
 git commit
 git push
+
+# To update local git with new update on repo
+git fetch
+
