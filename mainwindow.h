@@ -34,6 +34,7 @@ int recordSession() - records the current session to the current user stored in 
 void stopSession() - stops the undergoing session when called
 void initMenu(Menu*) - Creates, initializes and displays sub menus
 void menuUpdate(Menu*) - updates menu display
+void displaySession() - handles the timer display when in a session
 */
 
 
@@ -63,6 +64,7 @@ private:
     int Intensity2;
     bool Med_Battery;
     bool Low_Battery;
+    int duration;
     
     User* currentUser;      //currently selected user.
     Session* currentSession; //the current undergoing session
@@ -70,6 +72,8 @@ private:
     int currentTimerCount; // int that represents time in seconds
     Menu* currentMenu;
     Menu* forDestructorMenu;
+    QVector<Session*> sessionList;
+    QVector<User*> userList;//?
 
     void initializeTimer(QTimer*);
     void startSession(Session*);
@@ -78,6 +82,7 @@ private:
     void recordSession();
     void stopSession();
     void menuUpdate(Menu*);
+    void displaySession();
 
 private slots:
     void updateTimer();

@@ -36,4 +36,4 @@ QStringList Menu::getMenuItems() { return menuItems; }
 Menu* Menu::getParent() { return parent; }
 //int Menu::getPos() { return position; }
 Menu* Menu::get(int i) { return subMenus[i]; }
-bool Menu::hasChildMenu(){return menuItems.length()>0;}
+bool Menu::hasChildMenu(){return subMenus.length()>0;}
