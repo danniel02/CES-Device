@@ -39,3 +39,7 @@ Menu* Menu::get(int i) { return subMenus[i]; }//this errors out as its out of in
 QString* Menu::getName(int i) { return &menuItems[i]; }//this errors out as its out of index
 //bool Menu::hasChildMenu(){return menuItems.length()>0;}
 bool Menu::hasChildMenu(){return subMenus.length()>0;}
+
+void Menu::addMenuItem(QString s){
+    menuItems.append(s);
+}

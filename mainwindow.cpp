@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->CT_LIST->addItems({"No Connection", "Okay Connection", "Excellent Connection"}); // Connection test QComboBox initialization & connections
     connect(ui->CT_LIST, QOverload<int>::of(&QComboBox::activated), this, QOverload<int>::of(&MainWindow::connectionTest));
     //Yacin end
+    connect(ui->RECORD, SIGNAL(pressed()),this,SLOT(recordSession()));
 
     Left_Contact=false;
     Right_Contact=false;
@@ -41,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     Intensity=0;
     Low_Battery=false;
     Med_Battery=false;
+    recording = false;
 
     currentUser = new User("Default"); // set the current user as a default
     currentSession = nullptr;
@@ -62,9 +64,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::Traverse(){
-
-    if (!Power_On){ return; }
-
     QPushButton* up_down = qobject_cast<QPushButton*>(sender());
     qInfo()<<"selected: "<<up_down->text();
     //do with this what you will
@@ -128,17 +127,18 @@ void MainWindow::Select(){
         }else if(name == "Session List"){
             qInfo()<<name;
             qInfo()<<*n;
+
+            Session* selectedSess = currentUser->getSessions()[indexMenu];
+            startSession(selectedSess);
+
+            
+
         }
     }
     //ADD LOGIC HERE
     //options, start/create session, select user, view session
 
     //Yacin end
-
-
-    //if selection is session call creation of session
-    //else traverse multi dimension array
-
 }
 
 //Yacin start
@@ -155,39 +155,26 @@ void MainWindow::goBack(){
 
 void MainWindow::Contact(){
     QPushButton* L_R = qobject_cast<QPushButton*>(sender());
-    QDebug deb = qDebug();
-    deb << "Toggling " << L_R->text() << " ... ";
+    qInfo()<<"Connect/Disconnect: "<<L_R->text();
     if (L_R->text()=="L_CON"){
         Left_Contact= !Left_Contact;
-        if (Left_Contact){
-            deb <<"Left Connection is: ON ... ";
-        } else{
-            deb << "Left Connection is: OFF ... ";
-        }
+        qInfo()<<"Left Con now: "<<Left_Contact;
 
     }else{
         Right_Contact= !Right_Contact;
-        if (Right_Contact){
-            deb<<"Right Connection is: ON ... ";
-        } else{
-            deb<<"Right Connection is: OFF ... ";
-        }
+        qInfo()<<"Right Con now: "<<Right_Contact;
     }
     Update();
     //do with this what you will
 
     //Yacin start
     if((Left_Contact==false)||(Right_Contact==false)){
-        deb << " NO CONNECTION!";
-
         //PAUSE SESSION
         ui->CT_LIST->setCurrentIndex(0);
         ui->CON_T->setStyleSheet("background-color: red");
         isConnected=false;
     }
     else{
-        deb << " EXCELLENT CONNECTION!";
-
         //CONTINUE SESSION
         ui->CT_LIST->setCurrentIndex(2);
         ui->CON_T->setText("Excellent Connection");
@@ -199,46 +186,7 @@ void MainWindow::Contact(){
 }
 
 void MainWindow::Update(){
-    qInfo()<<".....Graphics Updated.....";
-
-
-    if (Power_On){
-        //everything is allowed to be on
-        ui->POWER_B->setStyleSheet("background-color: green");
-        ui->CON_T->setStyleSheet("background-color: red");
-        ui->L_CON->setStyleSheet("background-color: red");
-        ui->R_CON->setStyleSheet("background-color: red");
-        ui->OFF_SCREEN->setVisible(false);
-        ui->UP->blockSignals(false);
-        ui->DOWN->blockSignals(false);
-        ui->ENTER->blockSignals(false);
-        ui->RETURN->blockSignals(false);
-        ui->MODE->blockSignals(false);
-        ui->L_CON_B->blockSignals(false);
-        ui->R_CON_B->blockSignals(false);
-        ui->SET_BAT->blockSignals(false);
-        ui->SET_INT->blockSignals(false);
-        ui->USE_ADMIN->blockSignals(false);
-    }else{
-        //turn all lights to white, reset
-        ui->POWER_B->setStyleSheet("background-color: white");
-        ui->CON_T->setStyleSheet("background-color: white");
-        ui->L_CON->setStyleSheet("background-color: white");
-        ui->R_CON->setStyleSheet("background-color: white");
-        ui->OFF_SCREEN->setVisible(true);
-        ui->UP->blockSignals(true);
-        ui->DOWN->blockSignals(true);
-        ui->ENTER->blockSignals(true);
-        ui->RETURN->blockSignals(true);
-        ui->MODE->blockSignals(true);
-        ui->L_CON_B->blockSignals(true);
-        ui->R_CON_B->blockSignals(true);
-        ui->SET_BAT->blockSignals(true);
-        ui->SET_INT->blockSignals(true);
-        ui->USE_ADMIN->blockSignals(true);
-
-        return;
-    }
+    qInfo()<<"updating";
 
     //updates menu and all lights;
     //L/R contact, Mode, Power, power warning, menu, intensity
@@ -261,6 +209,24 @@ void MainWindow::Update(){
     //qInfo()<<"style:"<<ui->L_CON->styleSheet();
     //ui->R_CON->update();
 
+    if (Power_On){
+        //everything is allowed to be on
+        ui->POWER_B->setStyleSheet("background-color: green");
+        ui->OFF_SCREEN->setVisible(false);
+        ui->UP->blockSignals(false);
+        ui->DOWN->blockSignals(false);
+        ui->ENTER->blockSignals(false);
+        ui->RETURN->blockSignals(false);
+
+    }else{
+        //turn all lights to white, reset
+        ui->POWER_B->setStyleSheet("background-color: white");
+        ui->OFF_SCREEN->setVisible(true);
+        ui->UP->blockSignals(true);
+        ui->DOWN->blockSignals(true);
+        ui->ENTER->blockSignals(true);
+        ui->RETURN->blockSignals(true);
+    }
 
     //battery and warnning
     ui->BAT->setValue(Battery);
@@ -309,11 +275,7 @@ void MainWindow::Update(){
 void MainWindow::Power(){
 
     Power_On = !Power_On;
-    if (Power_On){
-        qInfo()<<"Power is: ON";
-    } else{
-        qInfo()<<"Power is: OFF";
-    }
+    qInfo()<<"power is:"<<Power_On;
     Update();//should turn everything off
 
 }
@@ -387,14 +349,19 @@ void MainWindow::SetIntensity2Admin(){
 
 }
 void MainWindow::ModeSwap(){
-    if (!Power_On){return;} // Do nothing if power is off
-
     //just add 1 to mode, if its now 3, set it to 0
     Mode_Int++;
     if (Mode_Int==3){
         Mode_Int=0;
     }
     Update();
+
+    if (Mode_Int==0){
+        QtConcurrent::run([this]{
+            return;
+        });
+
+    }
 
 }
 void MainWindow::UseAdmin(){
@@ -435,13 +402,16 @@ void MainWindow::updateTimer(){
 
 
     if (currentTimerCount == 0){
-        if(recording){ currentUser->addSession(currentSession); }
+        if(recording){ 
+            currentUser->addSession(currentSession); 
+            QString n = currentSession->getName();
+            currentMenu->get(1)->addMenuItem(n);
+        }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
         recording = false;
-
     }
 }
 
@@ -457,21 +427,22 @@ void MainWindow::startSession(Session *s){
 
 void MainWindow::stopSession(){
     if(currentTimerCount > 0){
+        if(recording){ 
+            currentUser->addSession(currentSession); 
+            QString n = currentSession->getName();
+            currentMenu->get(1)->addMenuItem(n);
+        }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
         recording = false;
-
     }
 
 }
 
 void MainWindow::recordSession(){    //uses currentUser variable to record a currently undergoing session to the current user vector
     if(currentTimerCount < 1){ return; } // if session is not currently undergoing, cannot record. Needs clarification on when you're able to record
-
-    //currentUser->addSession(currentSession);
-
     recording = true;
 
 }
@@ -483,10 +454,13 @@ void MainWindow::initMenu(Menu* currentM){
     //maybe make some lists and beased on what is clicked it either transfers to another list or modifies the current one
     //QTreeView ?
 
+    
+
+
     //Yacin start
     //creation of sub menus
     Menu* sessionCreation= new Menu("Session Creation",{"?","??","etc.."},currentM);
-    Menu* sessionList= new Menu("Session List",{"1. Session:#?","etc.."},currentM);
+    Menu* sessionList= new Menu("Session List",{},currentM);
     Menu* userSelect= new Menu("UserSelect",{"User ?","User ??","etc.."},currentM);
 
     //add sub menus to main menu
@@ -533,10 +507,12 @@ void MainWindow::connectionTest(int indexVal) {
 }
 
 void MainWindow::menuUpdate(Menu* currentM){
+
     ui->menuViewer->clear();
     ui->menuViewer->addItems(currentM->getMenuItems());
     ui->menuViewer->setCurrentRow(0);
     ui->MENU_LABEL->setText(currentM->getName());
+
 }
 
 //Yacin end
@@ -544,132 +520,8 @@ void MainWindow::menuUpdate(Menu* currentM){
 
 
 
-void MainWindow::testPower(){
-    // Test power button
-    Power();
-    QThread::sleep(1);
-    Power();
-    QThread::sleep(1);
-
-    // Test navigation when power is off. Should receive no response
-    ui->UP->pressed();
-    ui->DOWN->pressed();
-    ui->ENTER->pressed();
-    ui->RETURN->pressed();
-
-    // Turn the power on and test navigation
-    Power();
-    ui->DOWN->pressed();
-    QThread::sleep(1);
-    ui->DOWN->pressed();
-    QThread::sleep(1);
-    ui->ENTER->pressed();
-    QThread::sleep(1);
-    ui->RETURN->pressed();
-    QThread::sleep(1);
-    ui->UP->pressed();
-    QThread::sleep(1);
-    ui->UP->pressed();
-    QThread::sleep(1);
-
-    // TODO: Test power button while in session
-
-    // TODO: Softoff
-
-}
-
-void MainWindow::testBattery(){
-    ui->SPIN_BAT->setValue(90);
-    SetPowerAdmin();
-    QThread::sleep(1);
-
-    ui->SPIN_BAT->setValue(10);
-    SetPowerAdmin();
-    QThread::sleep(1);
-
-    ui->SPIN_BAT->setValue(0);
-    SetPowerAdmin();
-    QThread::sleep(1);
-
-    // TODO: Test battery depleteion on session
-}
-
-void MainWindow::testSessionSelection(){
-    // TODO:
-}
-
-void MainWindow::testConnection(){
-    Power();
 
 
-    // The connection status is excellent when both ears have connection
-    ui->L_CON_B->pressed();
-    QThread::sleep(1);
-    ui->R_CON_B->pressed();
-    QThread::sleep(2);
-    ui->L_CON_B->pressed();
-    QThread::sleep(1);
-    ui->L_CON_B->pressed();
-    QThread::sleep(1);
-    ui->R_CON_B->pressed();
-    QThread::sleep(1);
-    ui->R_CON_B->pressed();
-    QThread::sleep(1);
-
-
-}
-
-
-
-void MainWindow::testIntensitySelection(){
-    Power();
-
-    ui->SPIN_INT->setValue(90);
-    ui->SPIN_INT2->setValue(90);
-    ui->SET_INT->pressed();
-    ui->SET_INT2->pressed();
-    QThread::sleep(1);
-
-    ui->SPIN_INT->setValue(10);
-    ui->SPIN_INT2->setValue(10);
-    ui->SET_INT->pressed();
-    ui->SET_INT2->pressed();
-    QThread::sleep(1);
-
-    ui->SPIN_INT->setValue(0);
-    ui->SPIN_INT2->setValue(0);
-    ui->SET_INT->pressed();
-    ui->SET_INT2->pressed();
-    QThread::sleep(1);
-
-    // TODO: Test battery depleteion on session
-}
-
-void MainWindow::testRecordSession(){
-    // TODO
-}
-
-void MainWindow::testReplaySession(){
-    //TODO
-}
-
-void MainWindow::testSelectUser(){
-    Power();
-    ui->DOWN->pressed();
-    ui->DOWN->pressed();
-    ui->ENTER->pressed();
-    ui->ENTER->pressed(); // Select first user
-
-    //TODO REFINE select second users
-    ui->RETURN->pressed();
-    ui->DOWN->pressed();
-    ui->ENTER->pressed();
-
-    //TODO REFINE select third users
-    ui->RETURN->pressed();
-    ui->DOWN->pressed();
-    ui->ENTER->pressed();
-}
 
 
 

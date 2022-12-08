@@ -12,7 +12,6 @@
 #include "user.h"
 #include "menu.h"
 
-
 /*
 Class Purpose - This is the main window of the application and connects functions and functionality to the user interface
 
@@ -24,7 +23,6 @@ bool isConnected - a boolean variable that is true if the system is currently co
 int currentTimerCount - an int that measures the remaining time of a session in seconds
 Menu* currentMenu - the current menu the user is in
 Menu* forDestructorMenu - to delete the current menu pointer
-bool recording - a boolean variable, true if the current session is begin recorded, false if the current session is not
 
 
 Class Functions:
@@ -53,17 +51,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    // Testing functions
-    void testPower();
-    void testBattery();
-    void testSessionSelection();
-    void testConnection();
-    void testIntensitySelection();
-    void testRecordSession();
-    void testReplaySession();
-    void testSelectUser();
-
-
 private:
     Ui::MainWindow *ui;
     bool Left_Contact;
@@ -76,6 +63,7 @@ private:
     int Intensity2;
     bool Med_Battery;
     bool Low_Battery;
+    bool recording;
     
     User* currentUser;      //currently selected user.
     Session* currentSession; //the current undergoing session
@@ -85,8 +73,6 @@ private:
     Menu* forDestructorMenu;
     QVector<Session*> sessionList;
     QVector<User*> UserList;
-    bool recording;
-
 
     void initializeTimer(QTimer*);
     void startSession(Session*);
@@ -95,14 +81,6 @@ private:
     void recordSession();
     void stopSession();
     void menuUpdate(Menu*);
-
-
-
-
-    void connectionTest();
-    void recordSession();
-    void stopSession();
-
 
 private slots:
     void updateTimer();
