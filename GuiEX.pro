@@ -25,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+
     menu.h \
     session.h   \
     user.h

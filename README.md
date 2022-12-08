@@ -40,4 +40,3 @@ git push
 
 # To update local git with new update on repo
 git fetch
-
