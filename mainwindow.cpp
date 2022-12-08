@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->R_CON_B, SIGNAL(pressed()),this,SLOT(Contact()));
     connect(ui->POWER_B, SIGNAL(pressed()),this,SLOT(Power()));
     connect(ui->SET_BAT, SIGNAL(pressed()),this,SLOT(SetPowerAdmin()));
-    connect(ui->SET_INT, SIGNAL(pressed()),this,SLOT(SetIntensityAdmin()));
+    connect(ui->SPIN_INT, SIGNAL(valueChanged(int)),this,SLOT(SetIntensityAdmin()));
     connect(ui->SET_INT2, SIGNAL(pressed()),this,SLOT(SetIntensity2Admin()));
     connect(ui->MODE, SIGNAL(pressed()),this,SLOT(ModeSwap()));
     connect(ui->USE_ADMIN, SIGNAL(pressed()),this,SLOT(UseAdmin()));
@@ -38,11 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
     Mode_Int=0;
     Power_On=false;
     Battery=100;
-    Intensity=0;
+    Intensity=ui->SPIN_INT->value();
     Low_Battery=false;
     Med_Battery=false;
     duration=0;
     isConnected=false;
+    Draw=0.0;
 
     currentUser = new User("Default"); // set the current user as a default
     currentSession = nullptr;
@@ -173,9 +174,11 @@ void MainWindow::Select(){
 void MainWindow::goBack(){
     QPushButton* back = qobject_cast<QPushButton*>(sender());
     qInfo()<<"selected: "<<back->text();
-    if(currentMenu->getParent()!=nullptr){
-        currentMenu = currentMenu->getParent();
+    if(currentSession!=nullptr){
         stopSession();
+    }
+    else if(currentMenu->getParent()!=nullptr){
+        currentMenu = currentMenu->getParent();
     }
     else{return;}
     menuUpdate(currentMenu);
@@ -267,13 +270,16 @@ void MainWindow::Update(){
         ui->LOW->setStyleSheet("background-color: red");
 
     }
-    if (Battery==0){
+    if (Battery<=0){
         //set all to off, TODO: have it deactivate all buttons asswell and clear settings,
         //bassically startup again, maybe need to shift startup to its own function for restart
+        Power();
+
         qInfo()<<"no Power, shut down";
     }
 
     //intensity
+    //Intensity=ui->SPIN_INT->value();
     ui->INT->setValue(Intensity);
     ui->INT_2->setValue(Intensity2);
 
@@ -314,6 +320,9 @@ void MainWindow::Power(){
 
     Power_On = !Power_On;
     qInfo()<<"power is:"<<Power_On;
+    stopSession();
+    currentMenu=forDestructorMenu;
+    menuUpdate(currentMenu);
     Update();//should turn everything off
 
 }
@@ -416,7 +425,7 @@ void MainWindow::UseAdmin(){
 }
 void MainWindow::SetDraw(double i){
     qInfo()<<"Use:"<<i;
-    Draw=i;
+    Draw=i/2;
     if (Battery-Draw>0){
         SetPower(Battery-Draw);
     }else{
@@ -428,26 +437,21 @@ void MainWindow::initializeTimer(QTimer* t){
     //calls update timer ever 1 second until explicit call is made to stop or disconnect the timer
     connect(t, &QTimer::timeout, this, &MainWindow::updateTimer);
     if (isConnected) {
+        updateDisplaySession();
         t->start(1000);
     }
 }
 
 void MainWindow::updateTimer(){
+
     currentTimerCount -= 1;
 
     //do i set this to Intensity or Intensity2?
     currentSession->setIntensity(Intensity);
 
-    qInfo()<<"TIME LEFT:"<<currentTimerCount;
-    QString s;
-    if(currentTimerCount>60){
-        int hours = currentTimerCount / 60;
-        int minutes = currentTimerCount-(60*hours);
-        s = QStringLiteral("%1").arg(hours, 2, 10, QLatin1Char('0')) + ":" +QStringLiteral("%1").arg(minutes, 2, 10, QLatin1Char('0'));
-    }
-    s = QStringLiteral("%1").arg(0, 2, 10, QLatin1Char('0')) + ":" +QStringLiteral("%1").arg(currentTimerCount, 2, 10, QLatin1Char('0'));
+    updateDisplaySession();
+    SetDraw(Intensity);
 
-    ui->TIME_SCREEN->setText(s);
     if (currentTimerCount <= 0){
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
@@ -474,6 +478,7 @@ void MainWindow::stopSession(){
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
+        updateDisplaySession();
     }
 
 }
@@ -532,6 +537,11 @@ void MainWindow::connectionTest(bool checked) {
     //IF CHECKED IS FALSE THEN PAUSE CONNECTION
     if(checked==false){
         isConnected=false;
+        ui->CON_T->setStyleSheet("background-color: red");
+        if(currentSession!=nullptr){
+            stopSession();
+            menuUpdate(currentMenu);
+        }
     }
     else{
         isConnected=true;
@@ -576,6 +586,18 @@ void MainWindow::displaySession(){
     ui->menuViewer->setVisible(false);
     ui->USER_DESG_TIME->setVisible(false);
     ui->TIME_SCREEN->setVisible(true);
+}
+
+void MainWindow::updateDisplaySession(){
+    qInfo()<<"TIME LEFT:"<<currentTimerCount;
+    QString s;
+    if(currentTimerCount>60){
+        int hours = currentTimerCount / 60;
+        int minutes = currentTimerCount-(60*hours);
+        s = QStringLiteral("%1").arg(hours, 2, 10, QLatin1Char('0')) + ":" +QStringLiteral("%1").arg(minutes, 2, 10, QLatin1Char('0'));
+    }
+    s = QStringLiteral("%1").arg(0, 2, 10, QLatin1Char('0')) + ":" +QStringLiteral("%1").arg(currentTimerCount, 2, 10, QLatin1Char('0'));
+    ui->TIME_SCREEN->setText(s);
 }
 //Yacin end
 

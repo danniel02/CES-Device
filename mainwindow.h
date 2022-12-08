@@ -34,7 +34,8 @@ int recordSession() - records the current session to the current user stored in 
 void stopSession() - stops the undergoing session when called
 void initMenu(Menu*) - Creates, initializes and displays sub menus
 void menuUpdate(Menu*) - updates menu display
-void displaySession() - handles the timer display when in a session
+void displaySession() - displays the timer when in a session
+void updateDisplaySession() - void updates the timer display when in a session;
 */
 
 
@@ -83,6 +84,7 @@ private:
     void stopSession();
     void menuUpdate(Menu*);
     void displaySession();
+    void updateDisplaySession();
 
 private slots:
     void updateTimer();
