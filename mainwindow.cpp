@@ -48,7 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
     Draw=0.0;
     recording = false;
 
-    currentUser = new User("Default"); // set the current user as a default
+    userList.push_back(new User("1Default"));
+    currentUser = userList[0]; // set the current user as a default
     currentSession = nullptr;
 
     Update();
@@ -147,11 +148,14 @@ void MainWindow::Select(){
         if(name == "UserSelect"){
             qInfo()<<"switching user from"<<currentUser->getName();
             //does not work, need to init the right var names
-            for (int i=0;i<userList.length();i++){
-                if *n == userList[i].getName(){
-                    currentUser==userList[i];
-                }
-            }
+            qInfo()<<ui->menuViewer->currentRow();
+            //for (int i=0;i<userList.length();i++){
+
+            //    if (selected->text() == userList[i]->getName()){
+            //        currentUser==userList[i];
+            //    }
+            //}
+            currentUser= userList[ui->menuViewer->currentRow()];
             qInfo()<<"to:"<<currentUser->getName();
             currentMenu = currentMenu->getParent();
             menuUpdate(currentMenu);//might wanna shift these down to the bottom
@@ -542,7 +546,15 @@ void MainWindow::initMenu(Menu* currentM){
     //creation of sub menus
     Menu* sessionCreation= new Menu("Session Creation",{"20 Minutes","45 Minutes","User Designated"},currentM); //Yacin Change
     Menu* sessionList= new Menu("Session List",{},currentM);
-    Menu* userSelect= new Menu("UserSelect",{"User ?","User ??","etc.."},currentM);
+    //ben edit, adding dynamic users
+    userList.push_back(new User("Ben"));
+    userList.push_back(new User("Danniel"));
+    userList.push_back(new User("Duc"));
+    userList.push_back(new User("Yacin"));
+    for (int j=0;j<userList.length();j++){
+        qInfo()<<userList[j]->getName();
+    }
+    Menu* userSelect= new Menu("UserSelect",{"1Default","Ben","Danniel","Duc","Yacin"},currentM);
 
     //add sub menus to main menu
     currentM->addChildMenu(sessionCreation);
