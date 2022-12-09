@@ -145,7 +145,16 @@ void MainWindow::Select(){
     }
     else{
         if(name == "UserSelect"){
-            qInfo()<<name;
+            qInfo()<<"switching user from"<<currentUser->getName();
+            //does not work, need to init the right var names
+            for (int i=0;i<userList.length();i++){
+                if *n == userList[i].getName(){
+                    currentUser==userList[i];
+                }
+            }
+            qInfo()<<"to:"<<currentUser->getName();
+            currentMenu = currentMenu->getParent();
+            menuUpdate(currentMenu);//might wanna shift these down to the bottom
         }
         else if(name == "Session Creation"){          
             qInfo()<<"Something fun";
