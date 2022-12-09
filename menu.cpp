@@ -40,3 +40,6 @@ bool Menu::hasChildMenu(){return subMenus.length()>0;}
 void Menu::addMenuItem(QString s){
     menuItems.append(s);
 }
+void Menu::clearItems(){
+    menuItems.clear();
+}

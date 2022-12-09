@@ -40,6 +40,7 @@ public:
     void addChildMenu(Menu*); //function to add a menu
     bool hasChildMenu();
     void addMenuItem(QString);
+    void clearItems();
 
 private:
     QString name;

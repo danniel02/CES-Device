@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     forDestructorMenu = currentMenu;
 
     //Creates, initializes and displays sub menus
+    userList.push_back(new User("1Default"));
+    currentUser = userList[0]; // set the current user as a default
     initMenu(currentMenu);
     //Yacin end
 
@@ -48,8 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     Draw=0.0;
     recording = false;
 
-    userList.push_back(new User("1Default"));
-    currentUser = userList[0]; // set the current user as a default
+
     currentSession = nullptr;
 
     Update();
@@ -509,14 +510,18 @@ void MainWindow::stopSession(){
         if(recording){ 
             currentUser->addSession(currentSession); 
             
-            QString n = QString("Freq: %1, Dur: %2").arg(currentSession->getName(), QString::number(currentSession->getDuration()));
             while(1){
                 if(currentMenu->getName() == "START"){
                     break;
                 }
                 currentMenu = currentMenu->getParent();
             }
-            currentMenu->get(1)->addMenuItem(n);
+            currentMenu->clearItems();
+            for (int i=0;i<currentUser->getSessions().length();i++){
+                QString n = QString("Freq: %1, Dur: %2").arg(currentUser->getSessions()[i]->getName(), QString::number(currentUser->getSessions()[i]->getDuration()));
+                currentMenu->get(1)->addMenuItem(n);
+            }
+            //currentMenu->get(1)->addMenuItem(n);
         }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
@@ -634,6 +639,10 @@ void MainWindow::menuUpdate(Menu* currentM){
         ui->USER_DESG_TIME->setVisible(false);
         ui->TIME_SCREEN->setVisible(false);
     }
+    //if (currentM->getName("Session List")){
+
+     //   currentMenu->get(1)->addMenuItem(n);
+    //}
 }
 
 
