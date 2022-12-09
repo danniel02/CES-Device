@@ -86,6 +86,7 @@ private:
     void menuUpdate(Menu*);
     void displaySession();
     void updateDisplaySession();
+    void updateSessionList();
 
 private slots:
     void updateTimer();

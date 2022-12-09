@@ -115,6 +115,8 @@ void MainWindow::Traverse(){
 void MainWindow::Select(){
     //do with this what you will
     //Yacin start
+
+
     QPushButton* selected = qobject_cast<QPushButton*>(sender());
      qInfo()<<"selected: "<<selected->text();
 
@@ -126,6 +128,7 @@ void MainWindow::Select(){
 
     //if selection is session call creation of session
     //else traverse multi dimension array
+    if(name == "START"){ updateSessionList();}
     if(currentMenu->hasChildMenu()){
         currentMenu = currentMenu->get(indexMenu);
         //qInfo()<<"THE NAME:"<<currentMenu->getName();
@@ -475,15 +478,7 @@ void MainWindow::updateTimer(){
     if (currentTimerCount <= 0){
         if(recording){ 
             currentUser->addSession(currentSession); 
-            
-            QString n = QString("Freq: %1, Dur: %2").arg(currentSession->getName(), QString::number(currentSession->getDuration()));
-            while(1){
-                if(currentMenu->getName() == "START"){
-                    break;
-                }
-                currentMenu = currentMenu->getParent();
-            }
-            currentMenu->get(1)->addMenuItem(n);
+            updateSessionList();
         }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
@@ -510,18 +505,8 @@ void MainWindow::stopSession(){
         if(recording){ 
             currentUser->addSession(currentSession); 
             
-            while(1){
-                if(currentMenu->getName() == "START"){
-                    break;
-                }
-                currentMenu = currentMenu->getParent();
-            }
-            currentMenu->clearItems();
-            for (int i=0;i<currentUser->getSessions().length();i++){
-                QString n = QString("Freq: %1, Dur: %2").arg(currentUser->getSessions()[i]->getName(), QString::number(currentUser->getSessions()[i]->getDuration()));
-                currentMenu->get(1)->addMenuItem(n);
-            }
-            //currentMenu->get(1)->addMenuItem(n);
+
+            updateSessionList();
         }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
@@ -667,9 +652,19 @@ void MainWindow::updateDisplaySession(){
 //Yacin end
 
 
-
-
-
+void MainWindow::updateSessionList(){
+    while(1){
+        if(currentMenu->getName() == "START"){
+            break;
+        }
+        currentMenu = currentMenu->getParent();
+    }
+    currentMenu->get(1)->clearItems();
+    for (int i=0;i<currentUser->getSessions().length();i++){
+        QString n = QString("Freq: %1, Dur: %2").arg(currentUser->getSessions()[i]->getName(), QString::number(currentUser->getSessions()[i]->getDuration()));
+        currentMenu->get(1)->addMenuItem(n);
+    }
+}
 
 
 
