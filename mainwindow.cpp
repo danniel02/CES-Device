@@ -26,12 +26,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->SET_INT2, SIGNAL(pressed()),this,SLOT(SetIntensity2Admin()));
     connect(ui->MODE, SIGNAL(pressed()),this,SLOT(ModeSwap()));
     connect(ui->USE_ADMIN, SIGNAL(pressed()),this,SLOT(UseAdmin()));
+    connect(ui->RECORD, SIGNAL(pressed()),this,SLOT(recordSession()));
     //Yacin start
     connect(ui->ENTER, SIGNAL(pressed()),this,SLOT(Select()));
     connect(ui->RETURN, SIGNAL(pressed()),this,SLOT(goBack()));
     ui->CT_LIST->addItems({"No Connection", "Okay Connection", "Excellent Connection"}); // Connection test QComboBox initialization & connections
     connect(ui->CT_LIST, QOverload<int>::of(&QComboBox::activated), this, QOverload<int>::of(&MainWindow::connectionTest));
     //Yacin end
+    
 
     Left_Contact=false;
     Right_Contact=false;
@@ -44,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     duration=0;
     isConnected=false;
     Draw=0.0;
+    recording = false;
 
     currentUser = new User("Default"); // set the current user as a default
     currentSession = nullptr;
@@ -149,6 +152,9 @@ void MainWindow::Select(){
         }
         else if(name == "Session List"){
             qInfo()<<name;
+            Session* selectedSess = currentUser->getSessions()[indexMenu];
+            startSession(selectedSess);
+            displaySession();
         }
         else if(name == groups[0]||name == groups[1]||name == groups[2]){
             //variables to create session
@@ -453,11 +459,24 @@ void MainWindow::updateTimer(){
     SetDraw(Intensity);
 
     if (currentTimerCount <= 0){
+        if(recording){ 
+            currentUser->addSession(currentSession); 
+            
+            QString n = QString("Freq: %1, Dur: %2").arg(currentSession->getName(), QString::number(currentSession->getDuration()));
+            while(1){
+                if(currentMenu->getName() == "START"){
+                    break;
+                }
+                currentMenu = currentMenu->getParent();
+            }
+            currentMenu->get(1)->addMenuItem(n);
+        }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
         currentMenu = forDestructorMenu;
+        recording = false;
         menuUpdate(currentMenu);
     }
 }
@@ -474,18 +493,33 @@ void MainWindow::startSession(Session *s){
 
 void MainWindow::stopSession(){
     if(currentTimerCount > 0){
+        if(recording){ 
+            currentUser->addSession(currentSession); 
+            
+            QString n = QString("Freq: %1, Dur: %2").arg(currentSession->getName(), QString::number(currentSession->getDuration()));
+            while(1){
+                if(currentMenu->getName() == "START"){
+                    break;
+                }
+                currentMenu = currentMenu->getParent();
+            }
+            currentMenu->get(1)->addMenuItem(n);
+        }
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
         currentSession = nullptr;
+        recording = false;
         updateDisplaySession();
     }
 
 }
 
 void MainWindow::recordSession(){    //uses currentUser variable to record a currently undergoing session to the current user vector
+    qInfo()<<"test";
     if(currentTimerCount < 1){ return; } // if session is not currently undergoing, cannot record. Needs clarification on when you're able to record
-    currentUser->addSession(currentSession);
+    recording = true;
+    
 }
 
 //MENU NAV
@@ -498,7 +532,7 @@ void MainWindow::initMenu(Menu* currentM){
     //Yacin start
     //creation of sub menus
     Menu* sessionCreation= new Menu("Session Creation",{"20 Minutes","45 Minutes","User Designated"},currentM); //Yacin Change
-    Menu* sessionList= new Menu("Session List",{"1. Session:#?","etc.."},currentM);
+    Menu* sessionList= new Menu("Session List",{},currentM);
     Menu* userSelect= new Menu("UserSelect",{"User ?","User ??","etc.."},currentM);
 
     //add sub menus to main menu
@@ -589,6 +623,7 @@ void MainWindow::displaySession(){
 }
 
 void MainWindow::updateDisplaySession(){
+    qInfo()<<"Isrecording?"<<recording;
     qInfo()<<"TIME LEFT:"<<currentTimerCount;
     QString s;
     if(currentTimerCount>60){

@@ -37,3 +37,6 @@ Menu* Menu::getParent() { return parent; }
 //int Menu::getPos() { return position; }
 Menu* Menu::get(int i) { return subMenus[i]; }
 bool Menu::hasChildMenu(){return subMenus.length()>0;}
+void Menu::addMenuItem(QString s){
+    menuItems.append(s);
+}

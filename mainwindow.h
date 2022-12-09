@@ -66,6 +66,7 @@ private:
     bool Med_Battery;
     bool Low_Battery;
     int duration;
+    bool recording;
     
     User* currentUser;      //currently selected user.
     Session* currentSession; //the current undergoing session
@@ -80,7 +81,7 @@ private:
     void startSession(Session*);
 
     void initMenu(Menu*);
-    void recordSession();
+    
     void stopSession();
     void menuUpdate(Menu*);
     void displaySession();
@@ -105,5 +106,6 @@ private slots:
     void connectionTest(bool); //Yacin start //Yacin end
     void connectionTest(int); //Yacin start //Yacin end
     void goBack();
+    void recordSession();
 };
 #endif // MAINWINDOW_H
