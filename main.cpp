@@ -8,4 +8,11 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     return a.exec();
+
+
+//        w.testPower();
+//        w.testBattery();
+//        w.testConnection();
+//        w.testIntensitySelection();
+        return 0;
 }

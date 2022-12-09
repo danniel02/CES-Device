@@ -210,26 +210,39 @@ void MainWindow::goBack(){
 
 void MainWindow::Contact(){
     QPushButton* L_R = qobject_cast<QPushButton*>(sender());
-    qInfo()<<"Connect/Disconnect: "<<L_R->text();
+    QDebug deb = qDebug();
+    deb << "Toggling " << L_R->text() << " ... ";
     if (L_R->text()=="L_CON"){
         Left_Contact= !Left_Contact;
-        qInfo()<<"Left Con now: "<<Left_Contact;
+        if (Left_Contact){
+            deb <<"Left Connection is: ON ... ";
+        } else{
+            deb << "Left Connection is: OFF ... ";
+        }
 
     }else{
         Right_Contact= !Right_Contact;
-        qInfo()<<"Right Con now: "<<Right_Contact;
+        if (Right_Contact){
+            deb<<"Right Connection is: ON ... ";
+        } else{
+            deb<<"Right Connection is: OFF ... ";
+        }
     }
     Update();
     //do with this what you will
 
     //Yacin start
     if((Left_Contact==false)||(Right_Contact==false)){
+        deb << " NO CONNECTION!";
+
         //PAUSE SESSION
         ui->CT_LIST->setCurrentIndex(0);
         ui->CON_T->setStyleSheet("background-color: red");
         isConnected=false;
     }
     else{
+        deb << " EXCELLENT CONNECTION!";
+
         //CONTINUE SESSION
         ui->CT_LIST->setCurrentIndex(2);
         ui->CON_T->setText("Excellent Connection");
@@ -241,7 +254,7 @@ void MainWindow::Contact(){
 }
 
 void MainWindow::Update(){
-    qInfo()<<"updating";
+    qInfo()<<".....Graphics Updated.....";
 
     //updates menu and all lights;
     //L/R contact, Mode, Power, power warning, menu, intensity
@@ -342,7 +355,11 @@ void MainWindow::Update(){
 void MainWindow::Power(){
 
     Power_On = !Power_On;
-    qInfo()<<"power is:"<<Power_On;
+    if (Power_On){
+        qInfo()<<"Power is: ON";
+    } else{
+        qInfo()<<"Power is: OFF";
+    }
     stopSession();
     currentMenu=forDestructorMenu;
     menuUpdate(currentMenu);
@@ -671,6 +688,135 @@ void MainWindow::updateSessionList(){
 
 
 
+
+void MainWindow::testPower(){
+    // Test power button
+    Power();
+    QThread::sleep(1);
+    Power();
+    QThread::sleep(1);
+
+    // Test navigation when power is off. Should receive no response
+    ui->UP->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
+    ui->RETURN->pressed();
+
+    // Turn the power on and test navigation
+    Power();
+    ui->DOWN->pressed();
+    QThread::sleep(1);
+    ui->DOWN->pressed();
+    QThread::sleep(1);
+    ui->ENTER->pressed();
+    QThread::sleep(1);
+    ui->RETURN->pressed();
+    QThread::sleep(1);
+    ui->UP->pressed();
+    QThread::sleep(1);
+    ui->UP->pressed();
+    QThread::sleep(1);
+
+    // TODO: Test power button while in session
+
+    // TODO: Softoff
+
+}
+
+void MainWindow::testBattery(){
+    ui->SPIN_BAT->setValue(90);
+    SetPowerAdmin();
+    QThread::sleep(1);
+
+    ui->SPIN_BAT->setValue(10);
+    SetPowerAdmin();
+    QThread::sleep(1);
+
+
+    // SetPowerAdmin to 0 crashes the program
+//    ui->SPIN_BAT->setValue(0);
+//    SetPowerAdmin();
+//    QThread::sleep(1);
+
+    // TODO: Test battery depleteion on session
+}
+
+void MainWindow::testSessionSelection(){
+    // TODO:
+}
+
+void MainWindow::testConnection(){
+    Power();
+
+
+    // The connection status is excellent when both ears have connection
+    ui->L_CON_B->pressed();
+    QThread::sleep(1);
+    ui->R_CON_B->pressed();
+    QThread::sleep(2);
+    ui->L_CON_B->pressed();
+    QThread::sleep(1);
+    ui->L_CON_B->pressed();
+    QThread::sleep(1);
+    ui->R_CON_B->pressed();
+    QThread::sleep(1);
+    ui->R_CON_B->pressed();
+    QThread::sleep(1);
+
+
+}
+
+
+
+void MainWindow::testIntensitySelection(){
+    Power();
+
+    ui->SPIN_INT->setValue(90);
+    ui->SPIN_INT2->setValue(90);
+    ui->SET_INT->pressed();
+    ui->SET_INT2->pressed();
+    QThread::sleep(1);
+
+    ui->SPIN_INT->setValue(10);
+    ui->SPIN_INT2->setValue(10);
+    ui->SET_INT->pressed();
+    ui->SET_INT2->pressed();
+    QThread::sleep(1);
+
+    ui->SPIN_INT->setValue(0);
+    ui->SPIN_INT2->setValue(0);
+    ui->SET_INT->pressed();
+    ui->SET_INT2->pressed();
+    QThread::sleep(1);
+
+    // TODO: Test battery depleteion on session
+}
+
+void MainWindow::testRecordSession(){
+    // TODO
+}
+
+void MainWindow::testReplaySession(){
+    //TODO
+}
+
+void MainWindow::testSelectUser(){
+    Power();
+    ui->DOWN->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
+    ui->ENTER->pressed(); // Select first user
+
+    //TODO REFINE select second users
+    ui->RETURN->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
+
+    //TODO REFINE select third users
+    ui->RETURN->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
+}
 
 
 

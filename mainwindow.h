@@ -53,6 +53,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    // Testing functions
+    void testPower();
+    void testBattery();
+    void testSessionSelection();
+    void testConnection();
+    void testIntensitySelection();
+    void testRecordSession();
+    void testReplaySession();
+    void testSelectUser();
+
+
 private:
     Ui::MainWindow *ui;
     bool Left_Contact;
