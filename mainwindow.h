@@ -55,14 +55,14 @@ public:
 
     // Testing functions
     void restartDevice();
-    void testPower();
     void testBattery();
-    void testSessionSelection();
     void testConnection();
     void testIntensitySelection();
+    void testSelectUser();
+    void testSessionSelection();
+    void testPower();
     void testRecordSession();
     void testReplaySession();
-    void testSelectUser();
 
 
 private:
@@ -120,5 +120,7 @@ private slots:
     void connectionTest(int); //Yacin start //Yacin end
     void goBack();
     void recordSession();
+    void testAll();
+
 };
 #endif // MAINWINDOW_H

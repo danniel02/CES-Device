@@ -684,6 +684,19 @@
      <string>RECORD</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="TEST_ALL">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>470</y>
+      <width>181</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Test All</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -691,7 +704,7 @@
      <x>0</x>
      <y>0</y>
      <width>922</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

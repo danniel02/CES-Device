@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->CT_LIST->addItems({"No Connection", "Okay Connection", "Excellent Connection"}); // Connection test QComboBox initialization & connections
     connect(ui->CT_LIST, QOverload<int>::of(&QComboBox::activated), this, QOverload<int>::of(&MainWindow::connectionTest));
     //Yacin end
+    connect(ui->TEST_ALL, SIGNAL(pressed()),this,SLOT(testAll()));
     
 
     Left_Contact=false;
@@ -690,8 +691,113 @@ void MainWindow::updateSessionList(){
 
 
 
-void MainWindow::restartDevice(){stopSession(); Power_On=0; Power(); qInfo()<< "Turning the device ON"; Left_Contact=0; Right_Contact=0;}
+void MainWindow::restartDevice(){ Power_On=false; Power(); qInfo()<< "Turning the device ON"; ui->SPIN_BAT->setValue(100);SetPowerAdmin();}
 
+void MainWindow::testBattery(){
+    qInfo() << "********** TEST BATTERY **********";
+
+    restartDevice();
+
+    ui->SPIN_BAT->setValue(90);
+    SetPowerAdmin();
+    QThread::sleep(1);
+
+    ui->SPIN_BAT->setValue(30);
+    SetPowerAdmin();
+    QThread::sleep(1);
+
+    qInfo() << "";
+    qInfo() << "";
+    QThread::sleep(3);
+}
+
+
+void MainWindow::testConnection(){
+    qInfo() << "********** TEST CONNECTION **********";
+
+    restartDevice();
+
+    // The connection status is excellent when both ears have connection
+    ui->L_CON_B->pressed();
+    QThread::sleep(1);
+    ui->R_CON_B->pressed();
+    QThread::sleep(2);
+    ui->L_CON_B->pressed();
+    QThread::sleep(1);
+    ui->L_CON_B->pressed();
+    QThread::sleep(1);
+    ui->R_CON_B->pressed();
+    QThread::sleep(1);
+    ui->R_CON_B->pressed();
+    QThread::sleep(1);
+
+    ui->L_CON_B->pressed();
+    ui->R_CON_B->pressed();
+
+
+    qInfo() << "";
+    qInfo() << "";
+    QThread::sleep(3);
+}
+
+
+
+void MainWindow::testIntensitySelection(){
+    qInfo() << "********** TEST INTENSITY SELECTION **********";
+
+    restartDevice();
+
+    ui->SPIN_INT->setValue(8);
+    ui->SET_INT->pressed();
+    QThread::sleep(1);
+
+    ui->SPIN_INT->setValue(5);
+    ui->SET_INT->pressed();
+    QThread::sleep(1);
+
+
+    qInfo() << "";
+    qInfo() << "";
+    QThread::sleep(3);
+}
+
+
+void MainWindow::testSelectUser(){
+    qInfo() << "********** TEST SELECT USER **********";
+
+    restartDevice();
+    // Select second user
+    ui->DOWN->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
+    ui->DOWN->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
+
+
+    qInfo() << "";
+    qInfo() << "";
+    QThread::sleep(3);
+}
+
+
+void MainWindow::testSessionSelection(){
+    qInfo() << "********** TEST SESSION SELECTION **********";
+
+    restartDevice();
+
+    // Select 20 mins with Theta frequency
+    ui->L_CON_B->pressed(); // ensure connection is excellent
+    ui->R_CON_B->pressed(); // ensure connection is excellent
+
+    currentSession = nullptr;
+    Session* tempSession = new Session("frequencyName","frequencyWaveLength",5,3);
+    startSession(tempSession);
+
+    qInfo() << "";
+    qInfo() << "";
+    QThread::sleep(3);
+}
 
 
 void MainWindow::testPower(){
@@ -725,139 +831,24 @@ void MainWindow::testPower(){
     ui->L_CON_B->pressed(); // ensure connection is excellent
     ui->R_CON_B->pressed(); // ensure connection is excellent
 
-    ui->ENTER->pressed(); // choose Start Session
-    ui->ENTER->pressed(); // choose 20 mins
-    ui->ENTER->pressed(); // choose Theta frequency
-    QThread::sleep(5);
-    Power();
+    currentSession = nullptr;
+    Session* tempSession = new Session("frequencyName","frequencyWaveLength",5,3);
+    startSession(tempSession);
 
-    qInfo() << "";
-    qInfo() << "";
-
-
-}
-
-void MainWindow::testBattery(){
-    qInfo() << "********** TEST BATTERY **********";
-
-    restartDevice();
-
-    ui->SPIN_BAT->setValue(90);
-    SetPowerAdmin();
-    QThread::sleep(1);
-
-    ui->SPIN_BAT->setValue(10);
-    SetPowerAdmin();
-    QThread::sleep(1);
-
-
-    // SetPowerAdmin to 0 crashes the program
-//    ui->SPIN_BAT->setValue(0);
-//    SetPowerAdmin();
-//    QThread::sleep(1);
-
-    // Test battery depleteion on session by starting a session
     ui->L_CON_B->pressed(); // ensure connection is excellent
     ui->R_CON_B->pressed(); // ensure connection is excellent
 
-    ui->ENTER->pressed(); // choose Start Session
-    ui->ENTER->pressed(); // choose 20 mins
-    ui->ENTER->pressed(); // choose Theta frequency
-
     qInfo() << "";
     qInfo() << "";
-    QThread::sleep(3);
-}
-
-void MainWindow::testSessionSelection(){
-    qInfo() << "********** TEST SESSION SELECTION **********";
-
-    restartDevice();
-
-    // Select 20 mins with Theta frequency
-    ui->L_CON_B->pressed(); // ensure connection is excellent
-    ui->R_CON_B->pressed(); // ensure connection is excellent
-
-    ui->ENTER->pressed(); // choose Start Session
-    ui->ENTER->pressed(); // choose 20 mins
-    ui->ENTER->pressed(); // choose Theta frequency
 
 
-    // *** DELETE BELOW IF NO FIX *** CANNOT SET DESG TIME VALUE
-    // Select custom time with Alpha frequency
-    // Currently at starting screen
-//    ui->ENTER->pressed(); // choose Start Session
-//    ui->UP->pressed();
-//    ui->ENTER->pressed(); // choose custom time
-//    ui->USER_DESG_TIME->setValue(3); // set custom time
-
-//    ui->DOWN->pressed();
-//    ui->ENTER->pressed(); // choose Alpha frequency
-
-
-    qInfo() << "";
-    qInfo() << "";
-    QThread::sleep(3);
-}
-
-void MainWindow::testConnection(){
-    qInfo() << "********** TEST CONNECTION **********";
-
-    restartDevice();
-
-    // The connection status is excellent when both ears have connection
-    ui->L_CON_B->pressed();
-    QThread::sleep(1);
-    ui->R_CON_B->pressed();
-    QThread::sleep(2);
-    ui->L_CON_B->pressed();
-    QThread::sleep(1);
-    ui->L_CON_B->pressed();
-    QThread::sleep(1);
-    ui->R_CON_B->pressed();
-    QThread::sleep(1);
-    ui->R_CON_B->pressed();
-    QThread::sleep(1);
-
-
-    qInfo() << "";
-    qInfo() << "";
-    QThread::sleep(3);
 }
 
 
 
-void MainWindow::testIntensitySelection(){
-    qInfo() << "********** TEST INTENSITY SELECTION **********";
-
-    restartDevice();
-
-    ui->SPIN_INT->setValue(8);
-    ui->SET_INT->pressed();
-//    ui->SPIN_INT2->setValue(8);
-//    ui->SET_INT2->pressed();
-    QThread::sleep(1);
-
-    ui->SPIN_INT->setValue(5);
-    ui->SET_INT->pressed();
-//    ui->SPIN_INT2->setValue(5);
-//    ui->SET_INT2->pressed();
-    QThread::sleep(1);
-
-    // TODO: Test battery depleteion on session
-    ui->L_CON_B->pressed(); // ensure connection is excellent
-    ui->R_CON_B->pressed(); // ensure connection is excellent
-
-    ui->ENTER->pressed(); // choose Start Session
-    ui->ENTER->pressed(); // choose 20 mins
-    ui->ENTER->pressed(); // choose Theta frequency
 
 
 
-    qInfo() << "";
-    qInfo() << "";
-    QThread::sleep(3);
-}
 
 void MainWindow::testRecordSession(){
     qInfo() << "********** TEST RECORD SESSION **********";
@@ -865,7 +856,6 @@ void MainWindow::testRecordSession(){
     restartDevice();
 
     // Record with default user
-
     ui->L_CON_B->pressed(); // ensure connection is excellent
     ui->R_CON_B->pressed(); // ensure connection is excellent
 
@@ -874,20 +864,18 @@ void MainWindow::testRecordSession(){
     ui->ENTER->pressed(); // choose Theta frequency
     ui->RECORD->pressed();
 
+//    Record with different user
+    QThread::sleep(10);
+    ui->UP->pressed();
+    ui->ENTER->pressed();
+    ui->DOWN->pressed();
+    ui->ENTER->pressed();
 
-    // *** DELETE BELOW IF NO FIX *** Record with different user
-//    QThread::sleep(20);
-
-//    ui->UP->pressed();
-//    ui->ENTER->pressed();
-//    ui->DOWN->pressed();
-//    ui->ENTER->pressed();
-
-//    ui->ENTER->pressed(); // choose Start Session
-//    ui->DOWN->pressed();
-//    ui->ENTER->pressed(); // choose 45 mins
-//    ui->ENTER->pressed(); // choose  frequency
-//    ui->RECORD->pressed();
+    ui->ENTER->pressed(); // choose Start Session
+    ui->DOWN->pressed();
+    ui->ENTER->pressed(); // choose 45 mins
+    ui->ENTER->pressed(); // choose  frequency
+    ui->RECORD->pressed();
 
     qInfo() << "";
     qInfo() << "";
@@ -902,48 +890,26 @@ void MainWindow::testReplaySession(){
 
     ui->DOWN->pressed();
     ui->ENTER->pressed();
-//    ui->ENTER->pressed();
+    ui->ENTER->pressed();
 
     qInfo() << "";
     qInfo() << "";
-    QThread::sleep(3);
+    QThread::sleep(10);
 }
 
-void MainWindow::testSelectUser(){
-    qInfo() << "********** TEST SELECT USER **********";
 
-    restartDevice();
-    // Select second user
-    ui->DOWN->pressed();
-    ui->DOWN->pressed();
-    ui->ENTER->pressed();
-    ui->DOWN->pressed();
-    ui->DOWN->pressed();
-    ui->ENTER->pressed();
+void MainWindow::testAll(){
 
-//    ui->L_CON_B->pressed(); // ensure connection is excellent
-//    ui->R_CON_B->pressed(); // ensure connection is excellent
+    testBattery();
+    testConnection();
+    testIntensitySelection();
+    testSelectUser();
+    testSessionSelection();
+    testPower();
+    testRecordSession();
+    testReplaySession();
+    qInfo() << "============ FINISHED MULTIPLE TESTS ============";
 
-//    ui->ENTER->pressed(); // choose Start Session
-//    ui->ENTER->pressed(); // choose 20 mins
-//    ui->ENTER->pressed(); // choose Theta frequency
-
-
-
-
-    //TODO REFINE select second users
-//    ui->RETURN->pressed();
-//    ui->DOWN->pressed();
-//    ui->ENTER->pressed();
-
-//    //TODO REFINE select third users
-//    ui->RETURN->pressed();
-//    ui->DOWN->pressed();
-//    ui->ENTER->pressed();
-
-    qInfo() << "";
-    qInfo() << "";
-    QThread::sleep(3);
 }
 
 
