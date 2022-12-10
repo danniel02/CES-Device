@@ -54,6 +54,7 @@ public:
     ~MainWindow();
 
     // Testing functions
+    void restartDevice();
     void testPower();
     void testBattery();
     void testSessionSelection();
