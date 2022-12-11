@@ -43,10 +43,11 @@ git ls-tree -r <branch_name>
 git pull 3004-project
 
 ## Push
-(not sure what is the correct order between commit and push)
 First, ensure you are at the branch that you want
 git add .
+
 git commit
+
 git push
 
 ## Compilation and Execution
