@@ -25,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->POWER_B, SIGNAL(pressed()),this,SLOT(Power()));
     connect(ui->SET_BAT, SIGNAL(pressed()),this,SLOT(SetPowerAdmin()));
     connect(ui->SPIN_INT, SIGNAL(valueChanged(int)),this,SLOT(SetIntensityAdmin()));
-    connect(ui->SET_INT2, SIGNAL(pressed()),this,SLOT(SetIntensity2Admin()));
-    connect(ui->MODE, SIGNAL(pressed()),this,SLOT(ModeSwap()));
-    connect(ui->USE_ADMIN, SIGNAL(pressed()),this,SLOT(UseAdmin()));
     connect(ui->RECORD, SIGNAL(pressed()),this,SLOT(recordSession()));
     //Yacin start
     connect(ui->ENTER, SIGNAL(pressed()),this,SLOT(Select()));
@@ -40,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     Left_Contact=false;
     Right_Contact=false;
-    Mode_Int=0;
+    Mode_Int=-1;
     Power_On=false;
     Battery=100;
     Intensity=ui->SPIN_INT->value();
@@ -77,7 +74,7 @@ void MainWindow::Traverse(){
     //Yacin start
 
     //traverse up the menu's options
-    if(up_down->text()=="UP"){
+    if(up_down->objectName()=="UP"){
         if(currentMenu->getName()=="Set User Designated Session Type"){
             ui->USER_DESG_TIME->setValue(ui->USER_DESG_TIME->value()+1);
         }
@@ -93,7 +90,7 @@ void MainWindow::Traverse(){
     }
 
     //traverse down the menu's options
-    else if(up_down->text()=="DOWN"){
+    else if(up_down->objectName()=="DOWN"){
         if(currentMenu->getName()=="Set User Designated Session Type"){
             ui->USER_DESG_TIME->setValue(ui->USER_DESG_TIME->value()-1);
         }
@@ -120,6 +117,10 @@ void MainWindow::Select(){
 
     QPushButton* selected = qobject_cast<QPushButton*>(sender());
      qInfo()<<"selected: "<<selected->text();
+
+    if(currentSession!=nullptr){
+        return;
+    }
 
     //For tracking
     int indexMenu = ui->menuViewer->currentRow();
@@ -171,6 +172,7 @@ void MainWindow::Select(){
         else if(name == "Session List"){
             qInfo()<<name;
             Session* selectedSess = currentUser->getSessions()[indexMenu];
+            Mode_Int= frequencyList.indexOf(selectedSess->getFreq());
             startSession(selectedSess);
             displaySession();
         }
@@ -180,6 +182,7 @@ void MainWindow::Select(){
             QString frequencyWaveLength = frequencyList[indexMenu];
 
             qInfo()<<"selected session frequency:"<<frequencyName;
+            Mode_Int=indexMenu;
 
             qInfo()<<"starting session...";
             currentSession = nullptr;
@@ -305,12 +308,15 @@ void MainWindow::Update(){
     }
     if(Low_Battery){
         ui->LOW->setStyleSheet("background-color: red");
-
     }
+    if (Med_Battery == false && Low_Battery==false){
+        ui->LOW->setStyleSheet("background-color: rgb(174, 173, 172)");
+    }
+
     if (Battery<=0){
         //set all to off, TODO: have it deactivate all buttons asswell and clear settings,
         //bassically startup again, maybe need to shift startup to its own function for restart
-        Power();
+        //Power();
 
         qInfo()<<"no Power, shut down";
     }
@@ -322,34 +328,8 @@ void MainWindow::Update(){
 
 
 
-    //mode
-    switch (Mode_Int) {
-    case 0:
-        ui->M1->setStyleSheet("background-color: green");
-        ui->M2->setStyleSheet("background-color: red");
-        ui->M3->setStyleSheet("background-color: red");
-        ui->M4->setStyleSheet("background-color: red");
-        break;
-    case 1:
-        ui->M1->setStyleSheet("background-color: red");
-        ui->M2->setStyleSheet("background-color: green");
-        ui->M3->setStyleSheet("background-color: red");
-        ui->M4->setStyleSheet("background-color: red");
-        break;
-    case 2:
-        ui->M1->setStyleSheet("background-color: red");
-        ui->M2->setStyleSheet("background-color: red");
-        ui->M3->setStyleSheet("background-color: green");
-        ui->M4->setStyleSheet("background-color: red");
-        break;
-    case 3:
-        ui->M1->setStyleSheet("background-color: red");
-        ui->M2->setStyleSheet("background-color: red");
-        ui->M3->setStyleSheet("background-color: red");
-        ui->M4->setStyleSheet("background-color: green");
-        break;
-
-    }
+    //mode change
+    ModeSwap();
 
 
 }
@@ -375,9 +355,15 @@ void MainWindow::SetPowerAdmin(){
     Battery = P_Bar;
     if (P_Bar<15){
         Med_Battery=true;
+        Low_Battery=false;
     }
     if (P_Bar<5){
+        Med_Battery=false;
         Low_Battery=true;
+    }
+    if(P_Bar>=15){
+        Med_Battery=false;
+        Low_Battery=false;
     }
     Update();
 
@@ -396,6 +382,11 @@ void MainWindow::SetPower(int i){
     }else{
         Low_Battery=false;
     }
+
+    if(i==0){
+        Power_On=false;
+        Mode_Int= -1;
+    }
     Update();
 
 }
@@ -408,13 +399,7 @@ void MainWindow::SetIntensity(int i){
     Update();
 
 }
-void MainWindow::SetIntensity2(int i){
-    //do
-    qInfo()<<"intensity to:"<<i;
-    Intensity2 = i;
-    Update();
 
-}
 void MainWindow::SetIntensityAdmin(){
     //do
     double i = ui->SPIN_INT->value();
@@ -426,51 +411,51 @@ void MainWindow::SetIntensityAdmin(){
     Update();
 
 }
-void MainWindow::SetIntensity2Admin(){
-    //do
-    double i = ui->SPIN_INT2->value();
-    qInfo()<<"intensity to:"<<i;
 
-
-    Intensity2 = i;
-    Update();
-
-}
 void MainWindow::ModeSwap(){
-    //just add 1 to mode, if its now 3, set it to 0
-    Mode_Int++;
-    if (Mode_Int==4){
-        Mode_Int=0;
-    }
-    Update();
-
-    if (Mode_Int==0){
-        QtConcurrent::run([this]{
-            return;
-        });
-
+    switch (Mode_Int) {
+        case 0:
+            ui->M1->setStyleSheet("background-color: green");
+            ui->M2->setStyleSheet("background-color: Light gray");
+            ui->M3->setStyleSheet("background-color: Light gray");
+            ui->M4->setStyleSheet("background-color: Light gray");
+            break;
+        case 1:
+            ui->M1->setStyleSheet("background-color: Light gray");
+            ui->M2->setStyleSheet("background-color: green");
+            ui->M3->setStyleSheet("background-color: Light gray");
+            ui->M4->setStyleSheet("background-color: Light gray");
+            break;
+        case 2:
+            ui->M1->setStyleSheet("background-color: Light gray");
+            ui->M2->setStyleSheet("background-color: Light gray");
+            ui->M3->setStyleSheet("background-color: green");
+            ui->M4->setStyleSheet("background-color: Light gray");
+            break;
+        case 3:
+            ui->M1->setStyleSheet("background-color: Light gray");
+            ui->M2->setStyleSheet("background-color: Light gray");
+            ui->M3->setStyleSheet("background-color: Light gray");
+            ui->M4->setStyleSheet("background-color: green");
+            break;
+        default:
+            ui->M1->setStyleSheet("background-color: Light gray");
+            ui->M2->setStyleSheet("background-color: Light gray");
+            ui->M3->setStyleSheet("background-color: Light gray");
+            ui->M4->setStyleSheet("background-color: Light gray");
+            break;
     }
 
 }
-void MainWindow::UseAdmin(){
 
-    double i = ui->SPIN_USE_ADMIN->value();
-    qInfo()<<"Use:"<<i;
-    if (Battery-i>0){
-        SetPower(Battery-i);
-    }else{
-        Battery = 0;
-    }
-    Update();
-
-}
 void MainWindow::SetDraw(double i){
-    qInfo()<<"Use:"<<i;
+    qInfo()<<"Intensity:"<<i;
     Draw=i/2;
-    if (Battery-Draw>0){
+    qInfo()<<"Draw from battery:"<<Draw;
+    if (Battery-Draw>=0){
         SetPower(Battery-Draw);
     }else{
-        Battery = 0;
+        SetPower(0);
     }
 }
 
@@ -497,7 +482,7 @@ void MainWindow::updateTimer(){
     updateDisplaySession();
     SetDraw(Intensity);
 
-    if (currentTimerCount <= 0){
+    if (currentTimerCount <= 0 || Battery <= 0){
         if(recording){ 
             currentUser->addSession(currentSession); 
             updateSessionList();
@@ -508,6 +493,8 @@ void MainWindow::updateTimer(){
         currentSession = nullptr;
         currentMenu = forDestructorMenu;
         recording = false;
+        Mode_Int=-1;
+        ModeSwap();
         menuUpdate(currentMenu);
     }
 }
@@ -531,6 +518,8 @@ void MainWindow::stopSession(){
 
             updateSessionList();
         }
+        Mode_Int= -1;
+        ModeSwap();
         currentTimerCount = -1;
         currentSession->getTimer()->stop();
         currentSession->getTimer()->disconnect();
@@ -748,11 +737,9 @@ void MainWindow::testIntensitySelection(){
     restartDevice();
 
     ui->SPIN_INT->setValue(8);
-    ui->SET_INT->pressed();
     QThread::sleep(1);
 
     ui->SPIN_INT->setValue(5);
-    ui->SET_INT->pressed();
     QThread::sleep(1);
 
 
