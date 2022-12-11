@@ -36,6 +36,7 @@ void initMenu(Menu*) - Creates, initializes and displays sub menus
 void menuUpdate(Menu*) - updates menu display
 void displaySession() - displays the timer when in a session
 void updateDisplaySession() - void updates the timer display when in a session;
+void ModeSwap() - switches mode when choosing session type (either "Theta","Alpha","Beta 1",or "Beta 2")
 */
 
 
@@ -63,6 +64,7 @@ public:
     void testPower();
     void testRecordSession();
     void testReplaySession();
+    void ModeSwap();
 
 
 private:
@@ -111,10 +113,6 @@ private slots:
     void SetPower(int);
     void SetIntensityAdmin();
     void SetIntensity(int);
-    void SetIntensity2Admin();
-    void SetIntensity2(int);
-    void ModeSwap();
-    void UseAdmin();
     void SetDraw(double);
     void connectionTest(bool); //Yacin start //Yacin end
     void connectionTest(int); //Yacin start //Yacin end
