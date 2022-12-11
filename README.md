@@ -59,10 +59,10 @@ Danniel Kim
 - Helped with menu select functionality
 
 Yacin Ismail
-- 
+- ..
 
 Duc Tran
-- 
+- ..
 
 Ben Conabree
-- 
+- ..
