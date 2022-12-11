@@ -56,11 +56,15 @@ From there, the project will build and run.
 
 ## Running the Program
 Once within the program:
-To turn on the device press the power button.
-To navigate the menu use the provided buttons on the interface
-To see battery level, refer top left.
-To change the intensity use the bar left to the interface.
-To check/add connectivity (connection of the device to the user's ears), use the drop down menu on the right labelled connection test.
+- To turn on the device press the power button.
+- To navigate the menu use the provided buttons on the interface
+- To see battery level, refer top left.
+- To change the battery level use the scrollwheel on the right.
+- To change the intensity use the bar left to the interface.
+- To check/add connectivity (connection of the device to the user's ears), use the drop down menu on the right labelled connection test.
+- To view individual connectivity, refer to left and right con (L_CON and R_CON).
+- To view the selected mode (frequency) of the session, refer to above the interface.
+
 
 
 ## Contributions
