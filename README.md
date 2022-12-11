@@ -10,7 +10,7 @@ The CES Medical device is a device used to send mild forms of electrical stimula
 
 Danniel Kim (101193872), 
 Yacin Ismail (),
-Duc Tran (),
+Duc Tran (101158742),
 Ben Conabree (),
 
 
@@ -81,6 +81,7 @@ Yacin Ismail
 
 Duc Tran
 - Explore Git commands
+- Documentation
 - UML
 - Use Cases
 - Sequence Diagrams
