@@ -49,6 +49,11 @@ git add .
 git commit
 git push
 
+## Running the Program
+Download the zip file and unzip.
+Within the folder, run the .pro file with QtCreator.
+From there, the project will build and run.
+
 ## Contributions
 
 Danniel Kim
