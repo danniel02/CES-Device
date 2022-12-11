@@ -80,7 +80,14 @@ Yacin Ismail
 - ..
 
 Duc Tran
-- ..
+- Explore Git commands
+- UML
+- Use Cases
+- Sequence Diagrams
+- Traceability Matrix
+- UI
+- Electrical connection test
+- Functionality tests
 
 Ben Conabree
 - implemented and mainwindow select(user select), set power,power, set intensity,mode swap,setDraw, update, contact
