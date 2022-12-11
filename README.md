@@ -2,6 +2,17 @@
 
 Medical device
 
+## Purpose
+
+The CES Medical device is a device used to send mild forms of electrical stimulation to the brain. This is a simulation of said device in which multiple users can create, manage, and start sessions where different frequencies of electrical stimulation is sent to the brain via 2 connecting wires.
+
+## Authors
+
+Danniel Kim
+Yacin Ismail
+Duc Tran
+Ben Conabree
+
 
 # Git
 
