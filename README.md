@@ -33,7 +33,6 @@ Then, enter token as password
 git remote add 3004-project https://github.com/danniel02/CES-Device.git
 
 ## Navigate to a branch from terminal
-Please note that this is on top of my head, I didn't save the exact command:
 git checkout <branch_name> 
 
 ## Show all file
