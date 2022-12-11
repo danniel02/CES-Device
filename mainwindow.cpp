@@ -324,7 +324,6 @@ void MainWindow::Update(){
     //intensity
     //Intensity=ui->SPIN_INT->value();
     ui->INT->setValue(Intensity);
-    ui->INT_2->setValue(Intensity2);
 
 
 
