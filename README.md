@@ -33,6 +33,7 @@ Then, enter token as password
 git remote add 3004-project https://github.com/danniel02/CES-Device.git
 
 ## Navigate to a branch from terminal
+Please note that this is on top of my head, I didn't save the exact command:
 git checkout <branch_name> 
 
 ## Show all file
@@ -130,4 +131,4 @@ Ben Conabree
 - implemented and mainwindow select(user select), set power,power, set intensity,mode swap,setDraw, update, contact
 - wrote UML and Menu design skeleton
 - wrote state diagrams
-- 
+- implemented multiple user
