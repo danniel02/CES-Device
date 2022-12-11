@@ -52,7 +52,11 @@ git push
 ## Contributions
 
 Danniel Kim
-- Implemented...
+- Implemented Sessions class and functionality of starting, stopping, recording, and replaying sessions
+- Implemented User class
+- Designed sequence diagrams
+- Wrote use cases
+- Helped with menu select functionality
 
 Yacin Ismail
 - 
