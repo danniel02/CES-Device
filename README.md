@@ -10,7 +10,7 @@ The CES Medical device is a device used to send mild forms of electrical stimula
 
 Danniel Kim (101193872), 
 Yacin Ismail (),
-Duc Tran (),
+Duc Tran (101158742),
 Ben Conabree (),
 
 
@@ -44,6 +44,7 @@ git pull 3004-project
 
 ## Push
 First, ensure you are at the branch that you want
+
 git add .
 
 git commit
@@ -116,7 +117,15 @@ Yacin Ismail
 - ..
 
 Duc Tran
-- ..
+- Explore Git commands
+- Documentation
+- UML
+- Use Cases
+- Sequence Diagrams
+- Traceability Matrix
+- UI
+- Electrical connection test
+- Functionality tests
 
 Ben Conabree
 - implemented and mainwindow select(user select), set power,power, set intensity,mode swap,setDraw, update, contact
