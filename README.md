@@ -81,17 +81,17 @@ Once within the program:
 - session.h
 
 ### Additional Files:
-Executables:
-- GuiEX.pro 
-- GuiEX.pro.user
-UI:
-- mainwindow.ui
-Other:
-- README.md (This readme file)
-- UML (UML diagram)
-- Files in Sequence-Diagrams (Sequence diagrams corresponding to use cases)
-- Use-Cases (Use cases of the program)
-- State Diagram
+- Executables:
+  - GuiEX.pro 
+  - GuiEX.pro.user
+- UI:
+  - mainwindow.ui
+- Other:
+  - README.md (This readme file)
+  - UML (UML diagram)
+  - Files in Sequence-Diagrams (Sequence diagrams corresponding to use cases)
+  - Use-Cases (Use cases of the program)
+  - State Diagram
 
 ### Notes
 - 5 users are implemented in the program:
