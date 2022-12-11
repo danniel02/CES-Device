@@ -11,7 +11,7 @@ The CES Medical device is a device used to send mild forms of electrical stimula
 Danniel Kim (101193872), 
 Yacin Ismail (),
 Duc Tran (),
-Ben Conabree (101150845),
+Ben Conabree (),
 
 
 # Git
@@ -49,20 +49,34 @@ git add .
 git commit
 git push
 
+## Compilation and Execution
+Download the zip file and unzip.
+Within the folder, run the .pro file with QtCreator.
+From there, the project will build and run.
+
+## Running the Program
+Once within the program:
+To turn on the device press the power button.
+To navigate the menu use the provided buttons on the interface
+To see battery level, refer top left.
+To change the intensity use the bar left to the interface.
+To check/add connectivity (connection of the device to the user's ears), use the drop down menu on the right labelled connection test.
+
+
 ## Contributions
 
 Danniel Kim
-- Implemented...
+- Implemented Sessions class and functionality of starting, stopping, recording, and replaying sessions
+- Implemented User class
+- Designed sequence diagrams
+- Wrote use cases
+- Helped with menu select functionality
 
 Yacin Ismail
-- 
+- ..
 
 Duc Tran
-- 
+- ..
 
 Ben Conabree
-- UML
-- State diagrams
-- base UI
-- 
-- 
+- ..
