@@ -129,6 +129,9 @@ Duc Tran
 
 Ben Conabree
 - implemented and mainwindow select(user select), set power,power, set intensity,mode swap,setDraw, update, contact
-- wrote UML and Menu design skeleton
+- wrote UML 
+- wrote Menu design skeleton
 - wrote state diagrams
 - implemented multiple user
+- helped with menu select
+- 
