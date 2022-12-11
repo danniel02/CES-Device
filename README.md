@@ -10,7 +10,7 @@ The CES Medical device is a device used to send mild forms of electrical stimula
 
 Danniel Kim,
 Yacin Ismail,
-Duc Tran,
+Duc Tran 101158742,
 Ben Conabree,
 
 
