@@ -14,19 +14,6 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QProgressBar" name="BAT">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>118</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>100</number>
-    </property>
-   </widget>
    <widget class="QLabel" name="L_CON">
     <property name="geometry">
      <rect>
@@ -84,32 +71,13 @@
      <string>Connection Status</string>
     </property>
    </widget>
-   <widget class="QLabel" name="LOW">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>50</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(174, 173, 172);</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="text">
-     <string>LOW POWER</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="POWER_B">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>51</width>
-      <height>41</height>
+      <y>30</y>
+      <width>71</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -122,10 +90,10 @@
    <widget class="QListView" name="MENU">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>100</y>
+      <x>180</x>
+      <y>140</y>
       <width>251</width>
-      <height>331</height>
+      <height>211</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -135,8 +103,8 @@
    <widget class="QLabel" name="MENU_LABEL">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>100</y>
+      <x>180</x>
+      <y>140</y>
       <width>251</width>
       <height>17</height>
      </rect>
@@ -149,74 +117,6 @@
     </property>
     <property name="text">
      <string>MENU</string>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="INT">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>100</y>
-      <width>41</width>
-      <height>331</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="tabletTracking">
-     <bool>false</bool>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 75 9pt &quot;Noto Sans Adlam&quot;;</string>
-    </property>
-    <property name="maximum">
-     <number>8</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="textVisible">
-     <bool>false</bool>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-    <property name="invertedAppearance">
-     <bool>false</bool>
-    </property>
-    <property name="textDirection">
-     <enum>QProgressBar::TopToBottom</enum>
-    </property>
-    <property name="format">
-     <string>%p%</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="INT_LABEL">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>90</y>
-      <width>41</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(136, 138, 133);</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="text">
-     <string>INT</string>
     </property>
    </widget>
    <widget class="Line" name="line">
@@ -232,37 +132,11 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QPushButton" name="R_CON_B">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>70</y>
-      <width>80</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>L_CON</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="L_CON_B">
-    <property name="geometry">
-     <rect>
-      <x>750</x>
-      <y>70</y>
-      <width>80</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>R_CON</string>
-    </property>
-   </widget>
    <widget class="QListWidget" name="menuViewer">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>120</y>
+      <x>180</x>
+      <y>160</y>
       <width>251</width>
       <height>192</height>
      </rect>
@@ -281,33 +155,11 @@
      <string/>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>180</y>
-      <width>241</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="LABEL_ConectionTest">
-       <property name="text">
-        <string>Connection Test</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="CT_LIST"/>
-     </item>
-    </layout>
-   </widget>
    <widget class="QLabel" name="OFF_SCREEN">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>120</y>
+      <x>180</x>
+      <y>160</y>
       <width>251</width>
       <height>192</height>
      </rect>
@@ -322,8 +174,8 @@
    <widget class="QSpinBox" name="USER_DESG_TIME">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>120</y>
+      <x>180</x>
+      <y>160</y>
       <width>251</width>
       <height>192</height>
      </rect>
@@ -343,8 +195,8 @@
    <widget class="QLabel" name="TIME_SCREEN">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>120</y>
+      <x>180</x>
+      <y>160</y>
       <width>251</width>
       <height>192</height>
      </rect>
@@ -380,10 +232,10 @@
    <widget class="QWidget" name="horizontalLayoutWidget_2">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>320</y>
-      <width>251</width>
-      <height>128</height>
+      <x>100</x>
+      <y>370</y>
+      <width>381</width>
+      <height>131</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -594,118 +446,198 @@ border-color: black;</string>
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_3">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>69</y>
-      <width>251</width>
-      <height>21</height>
+      <x>110</x>
+      <y>10</y>
+      <width>531</width>
+      <height>107</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QLabel" name="M1">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(174, 173, 172);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="text">
-        <string>Theta</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="LOW">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(174, 173, 172);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string>LOW POWER</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="BAT">
+         <property name="value">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="M2">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(174, 173, 172);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="text">
-        <string>Alpha</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="INT_LABEL">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(174, 173, 172);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string>INT</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="INT">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="tabletTracking">
+          <bool>false</bool>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: white;
+border-style: outset;
+border-width: 2px;
+border-radius: 18px;
+border-color: black;</string>
+         </property>
+         <property name="maximum">
+          <number>8</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+         <property name="textDirection">
+          <enum>QProgressBar::TopToBottom</enum>
+         </property>
+         <property name="format">
+          <string>%p%</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="M3">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(174, 173, 172);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="text">
-        <string>Beta 1</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="M4">
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(174, 173, 172);</string>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="text">
-        <string>Beta 2</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_4">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>290</y>
-      <width>231</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QLabel" name="LABEL_SetBattery_2">
-       <property name="text">
-        <string>Set Battery</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="SPIN_BAT">
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="accelerated">
-        <bool>true</bool>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="SET_BAT">
-       <property name="text">
-        <string>Apply</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="M1">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(174, 173, 172);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string>Theta</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="M2">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(174, 173, 172);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string>Alpha</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="M3">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(174, 173, 172);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string>Beta 1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="M4">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(174, 173, 172);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string>Beta 2</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
@@ -713,28 +645,160 @@ border-color: black;</string>
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>140</y>
-      <width>118</width>
-      <height>28</height>
+      <y>10</y>
+      <width>241</width>
+      <height>281</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
-      <widget class="QLabel" name="LABEL_SET_INT">
+      <widget class="QLabel" name="LABEL_SET_INT_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Set Intensity</string>
+        <string>Set Right &amp; Left Connection</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="SPIN_INT">
-       <property name="minimum">
-        <number>1</number>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QPushButton" name="R_CON_B">
+           <property name="text">
+            <string>L_CON</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="L_CON_B">
+           <property name="text">
+            <string>R_CON</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="maximum">
-        <number>8</number>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
        </property>
-      </widget>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>13</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="LABEL_SET_INT">
+         <property name="text">
+          <string>Set Intensity</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="SPIN_INT">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>13</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="LABEL_ConectionTest">
+         <property name="text">
+          <string>Connection Test</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="CT_LIST"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>13</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="LABEL_SetBattery_2">
+         <property name="text">
+          <string>Set Battery</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="SPIN_BAT">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="accelerated">
+          <bool>true</bool>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="SET_BAT">
+         <property name="text">
+          <string>Apply</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </widget>
