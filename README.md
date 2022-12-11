@@ -62,10 +62,11 @@ Once within the program:
 - To navigate the menu use the provided buttons on the interface
 - To see battery level, refer top left.
 - To change the battery level use the scrollwheel on the right.
-- To change the intensity use the bar left to the interface.
+- To change the intensity use the bar above the interface.
 - To check/add connectivity (connection of the device to the user's ears), use the drop down menu on the right labelled connection test.
 - To view individual connectivity, refer to left and right con (L_CON and R_CON).
 - To view the selected mode (frequency) of the session, refer to above the interface.
+- To run tests, click the button on the bottom right.
 
 ### Source Files:
 - main.cpp
@@ -92,6 +93,7 @@ Once within the program:
   - Files in Sequence-Diagrams (Sequence diagrams corresponding to use cases)
   - Use-Cases (Use cases of the program)
   - State Diagram
+  - UIConcept (a diagram of the concept of how the main interface functions)
 
 ### Notes
 - 5 users are implemented in the program:
