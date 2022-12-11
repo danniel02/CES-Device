@@ -8,13 +8,10 @@ The CES Medical device is a device used to send mild forms of electrical stimula
 
 ## Authors
 
-Danniel Kim,
-
-Yacin Ismail,
-
-Duc Tran 101158742,
-
-Ben Conabree,
+Danniel Kim (101193872), 
+Yacin Ismail (),
+Duc Tran (),
+Ben Conabree (),
 
 
 # Git
@@ -51,3 +48,17 @@ First, ensure you are at the branch that you want
 git add .
 git commit
 git push
+
+## Contributions
+
+Danniel Kim
+- Implemented...
+
+Yacin Ismail
+- 
+
+Duc Tran
+- 
+
+Ben Conabree
+- 
