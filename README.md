@@ -120,7 +120,8 @@ Danniel Kim
 - Helped with menu select functionality
 
 Yacin Ismail
-- ..
+- Implemented Menu, navigation for menu, session implementaiton, display for timer, etc.
+- UI
 
 Duc Tran
 - Explore Git commands
